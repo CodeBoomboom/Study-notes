@@ -1,5 +1,6 @@
 ---
                                                                                                                                                                                                                                             typora-root-url: 图
+
 ---
 
 # 一、 Linux基础
@@ -333,51 +334,19 @@ rwx|r-x|r-x	属主、属组、其他
 
 ### 4.1 find命令：找文件
 
-	-type 按文件类型搜索  d/p/s/c/b/l/ f:文件
-	
-	-name 按文件名搜索
-	
-		find ./ -name "*file*.jpg"		*通配符，找当前目录下名字中包含file的jpg文件
-	
-	-maxdepth 指定搜索深度(目录层级)。应作为第一个参数出现。
-	
-		find ./ -maxdepth 1 -name "*file*.jpg"
+	-type 按文件类型搜索  d/p/s/c/b/l/ f:文件-name 按文件名搜索	find ./ -name "*file*.jpg"		*通配符，找当前目录下名字中包含file的jpg文件-maxdepth 指定搜索深度(目录层级)。应作为第一个参数出现。	find ./ -maxdepth 1 -name "*file*.jpg"
 
 
-	-size 按文件大小搜索. 单位：k、M、G（k小写,MG大写）
-	
-		find /home/itcast -size +20M -size -50M
-	
-	-atime（最近访问时间）、mtime（最近属性更改时间）、ctime（最近内容改动时间） 天  amin、mmin、cmin 分钟。
-	
-	-exec：将find搜索的结果集执行某一指定命令。
-	 
-		find /usr/ -name '*tmp*' -exec ls -ld {} \;
-	
-	-ok: 以交互式的方式 将find搜索的结果集执行某一指定命令
+	-size 按文件大小搜索. 单位：k、M、G（k小写,MG大写）	find /home/itcast -size +20M -size -50M-atime（最近访问时间）、mtime（最近属性更改时间）、ctime（最近内容改动时间） 天  amin、mmin、cmin 分钟。-exec：将find搜索的结果集执行某一指定命令。 	find /usr/ -name '*tmp*' -exec ls -ld {} \;-ok: 以交互式的方式 将find搜索的结果集执行某一指定命令
 
 
-	-xargs：将find搜索的结果集执行某一指定命令。  当结果集数量过大时，可以分片映射。
-	
-		find /usr/ -name '*tmp*' | xargs ls -ld 
-		
-	find ./ -maxdepth 1 -type f | xargs ls -l  若不加xargs，管道会无效。
-	find ./ -maxdepth 1 -type f -exec ls -l 
-	上述两条语句执行结果相同。区别：
-	exec：不论得到的结果多少都会交给exec去执行		——性能慢
-	xargs：若得到的结果较多时会分片再交给xargs执行，即分片映射	——性能快
-	xargs默认用空格分片，若文件名中有空格则会出错，除非修改分片字符为null，命令为添加print0：
-		find /usr/ -name '*tmp*' -print0 | xargs  -print0 ls -ld 
+	-xargs：将find搜索的结果集执行某一指定命令。  当结果集数量过大时，可以分片映射。	find /usr/ -name '*tmp*' | xargs ls -ld 	find ./ -maxdepth 1 -type f | xargs ls -l  若不加xargs，管道会无效。find ./ -maxdepth 1 -type f -exec ls -l 上述两条语句执行结果相同。区别：exec：不论得到的结果多少都会交给exec去执行		——性能慢xargs：若得到的结果较多时会分片再交给xargs执行，即分片映射	——性能快xargs默认用空格分片，若文件名中有空格则会出错，除非修改分片字符为null，命令为添加print0：	find /usr/ -name '*tmp*' -print0 | xargs  -print0 ls -ld 
 
 ### 4.2. grep
 
 grep命令：找文件内容
 
-	grep -r 'copy' ./ -n
-		-r:递归
-		-n参数：:显示行号
-	
-	ps aux | grep 'cupsd'  -- 检索进程结果集。相当于windows任务管理器，若检索结果只有一条（就是grep命令自己），说明系统中没有与检索内容相关的进程
+	grep -r 'copy' ./ -n	-r:递归	-n参数：:显示行号ps aux | grep 'cupsd'  -- 检索进程结果集。相当于windows任务管理器，若检索结果只有一条（就是grep命令自己），说明系统中没有与检索内容相关的进程
 
 ## 5. 软件安装卸载
 
@@ -409,25 +378,15 @@ sudo apt-get remove 软件名
 
 ### 7.1 tar压缩：
 
-	1. tar -zcvf 要生成的压缩包名	压缩材料。
-	
-		tar zcvf  test.tar.gz  file1 dir2   使用 gzip方式压缩。
-	
-		tar jcvf  test.tar.gz  file1 dir2   使用 bzip2方式压缩。
+	1. tar -zcvf 要生成的压缩包名	压缩材料。	tar zcvf  test.tar.gz  file1 dir2   使用 gzip方式压缩。	tar jcvf  test.tar.gz  file1 dir2   使用 bzip2方式压缩。
 
 tar解压：
 
-	将 压缩命令中的 c --> x
-	
-		tar zxvf  test.tar.gz   使用 gzip方式解压缩。
-	
-		tar jxvf  test.tar.gz   使用 bzip2方式解压缩。
+	将 压缩命令中的 c --> x	tar zxvf  test.tar.gz   使用 gzip方式解压缩。	tar jxvf  test.tar.gz   使用 bzip2方式解压缩。
 
 ### 7.2 rar压缩：
 
-	rar a -r  压缩包名（带.rar后缀） 压缩材料。
-	
-	rar a -r testrar.rar	stdio.h test2.mp3
+	rar a -r  压缩包名（带.rar后缀） 压缩材料。rar a -r testrar.rar	stdio.h test2.mp3
 
 rar解压：
 
@@ -435,15 +394,11 @@ rar解压：
 
 ### 7.3 zip压缩：
 
-	zip -r 压缩包名（带.zip后缀） 压缩材料。
-	
-		zip -r testzip.zip dir stdio.h test2.mp3
+	zip -r 压缩包名（带.zip后缀） 压缩材料。	zip -r testzip.zip dir stdio.h test2.mp3
 
 zip解压：
 
-	unzip 压缩包名（带.zip后缀） 
-	
-		unzip  testzip.zip 
+	unzip 压缩包名（带.zip后缀） 	unzip  testzip.zip 
 
 ## 8. 进程管理
 
@@ -565,9 +520,7 @@ hjkl	光标移动
 
 跳转到指定行：
 
-	1. 88G （命令模式）
-	
-	2. :88  (末行模式)
+	1. 88G （命令模式）2. :88  (末行模式)
 
 跳转文件首：
 
@@ -637,11 +590,7 @@ hjkl	光标移动
 查找：
 	1. 找 设想 内容：
 
-		命令模式下， 按 “/” 输入欲搜索关键字，回车。使用 n 检索下一个。
-	
-	2. 找 看到的内容：
-	
-		命令模式下，将光标置于单词任意一个字符上，按 “*”/ “#” 
+		命令模式下， 按 “/” 输入欲搜索关键字，回车。使用 n 检索下一个。2. 找 看到的内容：	命令模式下，将光标置于单词任意一个字符上，按 “*”/ “#” 
 
 单行替换：
 
@@ -653,9 +602,7 @@ hjkl	光标移动
 
 指定行的替换：
 
-	末行模式， :起始行号，终止行号s /原数据/新数据/g   g:不加，只替换每行首个。
-	
-		:29,35s /printf/println/g
+	末行模式， :起始行号，终止行号s /原数据/新数据/g   g:不加，只替换每行首个。	:29,35s /printf/println/g
 
 撤销、反撤销：
 
@@ -701,13 +648,13 @@ gcc编译：
 
 
 ​	
-​	预编译：gcc -E hello.c -o hello.i
+​	预编译（预处理）：gcc -E hello.c -o hello.i		去掉注释，导入头文件，展开宏定义
+​		
+​	编译：gcc -S hello.i -o hello.s								高级语言代码变为汇编代码
 ​	
-​	编译：gcc -S hello.i -o hello.s
+​	汇编：gcc -c hello.s -o hello.o								汇编代码变为目标代码（二进制010101）
 ​	
-​	汇编：gcc -c hello.s -o hello.o
-​	
-​	链接：gcc hello.o -o hello
+​	链接：gcc hello.o -o hello.out								目标代码变为可执行文件
 
 ![image-20220102205047533](/C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20220102205047533.png)
 
@@ -760,66 +707,13 @@ gcc编译：
 
 头文件守卫：防止头文件被重复包含
 
-	#ifndef _HEAD_H_
-	
-	#define _HEAD_H_
-	
-	......
-	
-	#endif
+	#ifndef _HEAD_H_#define _HEAD_H_......#endif
 
 ### 17.3 创建动态库
 
 动态库制作及使用：
 
-	1.  将 .c 生成 .o 文件， （生成与位置无关的代码 -fPIC）
-	
-		gcc -c add.c -o add.o -fPIC
-	
-	2. 使用 gcc -shared 制作动态库
-	
-		gcc -shared -o lib库名.so	add.o sub.o div.o
-	
-	3. 编译可执行程序时，指定所使用的动态库。  -l：指定库名(去掉lib前缀和.so后缀)  -L：指定库路径。
-	
-		gcc test.c -o a.out -lmymath -L./lib
-	                           
-	4. 运行可执行程序 ./a.out 出错！！！！ --- ldd a.out --> "not found"
-	
-		error while loading shared libraries: libxxx.so: cannot open shared object file: No such file or directory
-	
-		原因：
-			链接器：	工作于链接阶段， 工作时需要 -l 和 -L
-	
-			动态链接器：	工作于程序运行阶段，工作时需要提供动态库所在目录位置。
-	
-		解决方式：				
-	
-			【1】 通过环境变量：  export LD_LIBRARY_PATH=动态库路径
-	
-				./a.out 成功！！！  （临时生效， 终端重启环境变量失效）
-	
-			【2】 永久生效： 写入 终端配置文件。  .bashrc  建议使用绝对路径。
-	
-				1) vi ~/.bashrc
-	
-				2) 写入 export LD_LIBRARY_PATH=动态库路径  保存
-	
-				3）. .bashrc/  source .bashrc / 重启 终端  ---> 让修改后的.bashrc生效
-	
-				4）./a.out 成功！！！ 
-	
-			*【3】 拷贝自定义动态库 到 /lib (标准C库所在目录位置)
-	
-			*【4】 配置文件法
-	
-				1）sudo vi /etc/ld.so.conf
-	
-				2) 写入 动态库绝对路径  保存
-	
-				3）sudo ldconfig -v  使配置文件生效。
-	
-				4）./a.out 成功！！！--- 使用 ldd  a.out 查看
+	1.  将 .c 生成 .o 文件， （生成与位置无关的代码 -fPIC）	gcc -c add.c -o add.o -fPIC2. 使用 gcc -shared 制作动态库	gcc -shared -o lib库名.so	add.o sub.o div.o3. 编译可执行程序时，指定所使用的动态库。  -l：指定库名(去掉lib前缀和.so后缀)  -L：指定库路径。	gcc test.c -o a.out -lmymath -L./lib                           4. 运行可执行程序 ./a.out 出错！！！！ --- ldd a.out --> "not found"	error while loading shared libraries: libxxx.so: cannot open shared object file: No such file or directory	原因：		链接器：	工作于链接阶段， 工作时需要 -l 和 -L		动态链接器：	工作于程序运行阶段，工作时需要提供动态库所在目录位置。	解决方式：						【1】 通过环境变量：  export LD_LIBRARY_PATH=动态库路径			./a.out 成功！！！  （临时生效， 终端重启环境变量失效）		【2】 永久生效： 写入 终端配置文件。  .bashrc  建议使用绝对路径。			1) vi ~/.bashrc			2) 写入 export LD_LIBRARY_PATH=动态库路径  保存			3）. .bashrc/  source .bashrc / 重启 终端  ---> 让修改后的.bashrc生效			4）./a.out 成功！！！ 		*【3】 拷贝自定义动态库 到 /lib (标准C库所在目录位置)		*【4】 配置文件法			1）sudo vi /etc/ld.so.conf			2) 写入 动态库绝对路径  保存			3）sudo ldconfig -v  使配置文件生效。			4）./a.out 成功！！！--- 使用 ldd  a.out 查看
 
 ## 18. gdb调试工具
 
@@ -904,7 +798,7 @@ makefile： 管理项目。
 		目标：依赖条件
 		（一个tab缩进）命令
 	
-		1. 目标的时间必须晚于依赖条件的时间，否则，更新目标
+		1. 目标的时间必须晚于依赖条件的时间，否则，更新目标（根据目标更改时间检测更新）
 	
 		2. 依赖条件如果不存在，找寻新的规则去产生依赖条件。
 	
@@ -923,6 +817,7 @@ makefile： 管理项目。
 
 
 ```
+$(变量名):获取变量的值
 3 个自动变量：
 
 	$@: 在规则的命令中，表示规则中的目标。
@@ -943,7 +838,7 @@ makefile： 管理项目。
 
 伪目标：
 
-	.PHONY: clean ALL		防止当前目录有一个跟clean、ALL相同的文件存在导致规则不可用
+	.PHONY: clean ALL		防止当前目录有一个跟clean、ALL相同的文件存在导致规则不可用（也表明clean不会生成具体的目标文件）
 
 参数：
 	-n：模拟执行make、make clean 命令。
@@ -1029,15 +924,7 @@ makefile： 管理项目。
 
 #include<errno.h>
 
-	printf("xxx error: %d\n", errno);
-	
-	char *strerror(int errnum);
-	
-		printf("xxx error: %s\n", strerror(errno));
-	
-	void perror(const char *s);
-	
-		perror("open error");
+	printf("xxx error: %d\n", errno);char *strerror(int errnum);	printf("xxx error: %s\n", strerror(errno));void perror(const char *s);	perror("open error");
 
 
 
@@ -1050,22 +937,7 @@ makefile： 管理项目。
 
 
 ``` C
-PCB进程控制块：本质 结构体。
-
-成员：文件描述符表（PCB控制块中的一个成员指向文件描述符表）。
-
-文件描述符本质：指向一个文件结构体的指针（每个文件描述符都指向一个结构体）。
-struct file{
-}
-
-文件描述符：0/1/2/3/4。。。。/1023     表中可用的最小的。
-文件是从3开始计数，一个进程最多打开1024个文件，所以是0—1023
-进程默认打开三个文件
-0 - STDIN_FILENO	//标准输入
-
-1 - STDOUT_FILENO	//标准输出
-
-2 - STDERR_FILENO	//标准出错
+PCB进程控制块：本质 结构体。成员：文件描述符表（PCB控制块中的一个成员指向文件描述符表）。文件描述符本质：指向一个文件结构体的指针（每个文件描述符都指向一个结构体）。struct file{}文件描述符：0/1/2/3/4。。。。/1023     表中可用的最小的。文件是从3开始计数，一个进程最多打开1024个文件，所以是0—1023进程默认打开三个文件0 - STDIN_FILENO	//标准输入1 - STDOUT_FILENO	//标准输出2 - STDERR_FILENO	//标准出错
 ```
 
 
@@ -1164,11 +1036,7 @@ strace命令：查看程序在执行的时候所使用到的系统函数。
 
 阻塞、非阻塞：  是设备文件、网络文件的属性。
 
-	产生阻塞的场景： 读设备文件。读网络文件。（读常规文件无阻塞概念。）
-	
-	/dev/tty -- 终端文件。
-	
-	open("/dev/tty", O_RDWR|O_NONBLOCK)	--- 设置 /dev/tty 非阻塞状态。(默认为阻塞状态)
+	产生阻塞的场景： 读设备文件。读网络文件。（读常规文件无阻塞概念。）/dev/tty -- 终端文件。open("/dev/tty", O_RDWR|O_NONBLOCK)	--- 设置 /dev/tty 非阻塞状态。(默认为阻塞状态)
 
 一个例子，从标准输入读，写到标准输出：
 
@@ -1181,53 +1049,7 @@ strace命令：查看程序在执行的时候所使用到的系统函数。
 下面是一段更改非阻塞读取终端的代码：
 
 ```c++
-#include <unistd.h> 
-#include <fcntl.h> 
-#include <stdlib.h> 
-#include <stdio.h> 
-#include <errno.h> 
-#include <string.h> 
-
- #define MSG_TRY "try again\n" 
- #define MSG_TIMEOUT "time out\n"   
-
- int main(void) 
- {
-   char buf[10]; 
-   int fd, n, i; 
-   fd = open("/dev/tty", O_RDONLY|O_NONBLOCK); 
-     
-   if(fd < 0){ 
-     perror("open /dev/tty"); 
-     exit(1); 
-   } 
-
-   printf("open /dev/tty ok... %d\n", fd); 
-
-   for (i = 0; i < 5; i++){ 
-    n = read(fd, buf, 10); 
-    if (n > 0) {          //说明读到了东西 
-       break; 
-     } 
-
-    if (errno != EAGAIN) {     //EWOULDBLOCK  
-       perror("read /dev/tty"); 
-       exit(1); 
-     } else { 
-       write(STDOUT_FILENO, MSG_TRY, strlen(MSG_TRY)); 
-       sleep(2); 
-     } 
-  } 
-  
-  if (i == 5) { 
-    write(STDOUT_FILENO, MSG_TIMEOUT, strlen(MSG_TIMEOUT)); 
-   } else { 
-    write(STDOUT_FILENO, buf, n); 
- } 
-     
-  close(fd); 
-   return 0; 
- }
+#include <unistd.h> #include <fcntl.h> #include <stdlib.h> #include <stdio.h> #include <errno.h> #include <string.h>  #define MSG_TRY "try again\n"  #define MSG_TIMEOUT "time out\n"    int main(void)  {   char buf[10];    int fd, n, i;    fd = open("/dev/tty", O_RDONLY|O_NONBLOCK);         if(fd < 0){      perror("open /dev/tty");      exit(1);    }    printf("open /dev/tty ok... %d\n", fd);    for (i = 0; i < 5; i++){     n = read(fd, buf, 10);     if (n > 0) {          //说明读到了东西        break;      }     if (errno != EAGAIN) {     //EWOULDBLOCK         perror("read /dev/tty");        exit(1);      } else {        write(STDOUT_FILENO, MSG_TRY, strlen(MSG_TRY));        sleep(2);      }   }     if (i == 5) {     write(STDOUT_FILENO, MSG_TIMEOUT, strlen(MSG_TIMEOUT));    } else {     write(STDOUT_FILENO, buf, n);  }        close(fd);    return 0;  }
 ```
 
 执行，如图所示：
@@ -1240,26 +1062,7 @@ strace命令：查看程序在执行的时候所使用到的系统函数。
 
 移动文件内部“指针”（偏移位置）
 
-	off_t lseek(int fd, off_t offset, int whence);
-	
-	参数：
-		fd：文件描述符
-		offset： 偏移量
-		whence：起始偏移位置： SEEK_SET/SEEK_CUR/SEEK_END
-	
-	返回值：
-	
-		成功：较起始位置偏移量
-		失败：-1 errno
-	
-	应用场景：	
-		1. 文件的“读”、“写”使用同一偏移位置。
-	
-		2. 使用lseek获取文件大小（直接将lseek设置到END，返回值就是文件大小）
-	
-		3. 使用lseek拓展文件大小：要想使文件大小真正拓展，必须引起IO操作。
-	
-			使用 truncate 函数，直接拓展文件。	int ret = truncate("dict.cp", 250);
+	off_t lseek(int fd, off_t offset, int whence);参数：	fd：文件描述符	offset： 偏移量	whence：起始偏移位置： SEEK_SET/SEEK_CUR/SEEK_END返回值：	成功：较起始位置偏移量	失败：-1 errno应用场景：		1. 文件的“读”、“写”使用同一偏移位置。	2. 使用lseek获取文件大小（直接将lseek设置到END，返回值就是文件大小）	3. 使用lseek拓展文件大小：要想使文件大小真正拓展，必须引起IO操作。		使用 truncate 函数，直接拓展文件。	int ret = truncate("dict.cp", 250);
 
 
 
@@ -1269,19 +1072,7 @@ strace命令：查看程序在执行的时候所使用到的系统函数。
 
 fcntl：改变一个已经打开了的文件的访问属性
 
-	int (int fd, int cmd, ...)
-	fd   文件描述符
-	cmd  命令，决定了后续参数个数
-	
-	int flgs = fcntl(fd,  F_GETFL);
-	flgs |= O_NONBLOCK
-	fcntl(fd,  F_SETFL, flgs);
-	
-	重点掌握两个参数的使用， F_GETFL，F_SETFL
-	获取文件状态： F_GETFL
-	设置文件状态： F_SETFL
-	
-	★位图思想（类似于嵌入式中的寄存器思想）
+	int (int fd, int cmd, ...)fd   文件描述符cmd  命令，决定了后续参数个数int flgs = fcntl(fd,  F_GETFL);flgs |= O_NONBLOCKfcntl(fd,  F_SETFL, flgs);重点掌握两个参数的使用， F_GETFL，F_SETFL获取文件状态： F_GETFL设置文件状态： F_SETFL★位图思想（类似于嵌入式中的寄存器思想）
 
 终端文件默认是阻塞读的，这里用fcntl将其更改为非阻塞读
 
@@ -1607,51 +1398,7 @@ int main(void)
 修改后代码如下：
 
 ```c
-/* 
- *unlink函数是删除一个dentry 
- */  
-#include <unistd.h>  
-#include <fcntl.h>  
-#include <stdlib.h>  
-#include <string.h>  
-#include <stdio.h>  
-  
-  
-int main(void)  
-{  
-    int fd, ret;  
-    char *p = "test of unlink\n";  
-    char *p2 = "after write something.\n";  
-  
-    fd = open("temp.txt", O_RDWR|O_CREAT|O_TRUNC, 0644);  
-    if(fd < 0){  
-        perror("open temp error");  
-        exit(1);  
-    }  
-  
-    ret = unlink("temp.txt");        //具备了被释放的条件  
-    if(ret < 0){  
-        perror("unlink error");  
-        exit(1);  
-    }  
-  
-    ret = write(fd, p, strlen(p));  
-    if (ret == -1) {  
-        perror("-----write error");  
-    }  
-  
-    printf("hi! I'm printf\n");  
-    ret = write(fd, p2, strlen(p2));  
-    if (ret == -1) {  
-        perror("-----write error");  
-    }  
-  
-    printf("Enter anykey continue\n");  
-    getchar();  
-  
-    close(fd);  
-    return 0;  
-} 
+/*  *unlink函数是删除一个dentry  */  #include <unistd.h>  #include <fcntl.h>  #include <stdlib.h>  #include <string.h>  #include <stdio.h>      int main(void)  {      int fd, ret;      char *p = "test of unlink\n";      char *p2 = "after write something.\n";        fd = open("temp.txt", O_RDWR|O_CREAT|O_TRUNC, 0644);      if(fd < 0){          perror("open temp error");          exit(1);      }        ret = unlink("temp.txt");        //具备了被释放的条件      if(ret < 0){          perror("unlink error");          exit(1);      }        ret = write(fd, p, strlen(p));      if (ret == -1) {          perror("-----write error");      }        printf("hi! I'm printf\n");      ret = write(fd, p2, strlen(p2));      if (ret == -1) {          perror("-----write error");      }        printf("Enter anykey continue\n");      getchar();        close(fd);      return 0;  } 
 ```
 
 **隐式回收**：
@@ -1703,18 +1450,7 @@ vi 目录
 目录操作函数：
 
 ```C
-#include <sys/types>
-#include <dirent.h>
-DIR *opendir(char *name); //打开一个目录，成功返回目录指针，失败返回NULL，DIR*：目录结构体指针，相当于文件操作中的FILE*
-
-int closedir(DIR *dp); //关闭一个目录，成功返回0失败返回-1，设置errno
-
-struct dirent *readdir(DIR * dp);//读取目录,返回目录项dentry，成功返回结构体dentry，每次返回一个，到最后一个后返回NULL，失败返回NULL，设置errno
-
-struct dirent {
-		inode
-		char d_name[256];
-}
+#include <sys/types>#include <dirent.h>DIR *opendir(char *name); //打开一个目录，成功返回目录指针，失败返回NULL，DIR*：目录结构体指针，相当于文件操作中的FILE*int closedir(DIR *dp); //关闭一个目录，成功返回0失败返回-1，设置errnostruct dirent *readdir(DIR * dp);//读取目录,返回目录项dentry，成功返回结构体dentry，每次返回一个，到最后一个后返回NULL，失败返回NULL，设置errnostruct dirent {		inode		char d_name[256];}
 ```
 
 没有写目录操作，因为目录写操作就是创建文件。可以用touch
@@ -1730,4 +1466,38 @@ struct dirent {
 要隐藏这个.和..的话，在输出文件名的时候判定一下，只输出不是.和..的就行了
 
 ### 5.实战-递归遍历目录
+
+任务需求：使用opendir  closedir  readdir  stat实现一个递归遍历目录的程序
+
+输入一个指定目录，默认为当前目录。递归列出目录中的文件，同时显示文件大小。
+
+思路分析
+
+递归遍历目录：ls-R.c
+
+```
+1.判断命令行参数，获取用户要查询的目录名。  int argc, char *argv[1]
+
+    argc == 1 --> ./
+
+2.判断用户指定的是否是目录。 stat S_ISDIR(); --> 封装函数 isFile() {  }
+
+3.读目录： read_dir() { 
+
+    opendir（dir）
+
+    while （readdir（））{
+
+      普通文件，直接打印
+
+      目录：
+
+       拼接目录访问绝对路径。sprintf(path, "%s/%s", dir, d_name) 
+
+       递归调用自己。--》 opendir（path） readdir closedir
+
+    }
+
+    read_dir() --> isFile() ---> read_dir()
+```
 
