@@ -1,0 +1,217 @@
+
+Linux系统： “所见皆文件”
+
+
+Linux系统目录：
+
+	bin：存放二进制可执行文件
+
+	boot：存放开机启动程序
+
+	dev：存放设备文件： 字符设备、块设备
+
+	home：存放普通用户
+
+	etc：用户信息和系统配置文件 passwd、group
+
+	lib：库文件：libc.so.6
+
+	root：管理员宿主目录（家目录）
+
+	usr：用户资源管理目录
+
+Linux系统文件类型： 7/8 种
+
+	普通文件：-
+
+	目录文件：d
+
+	字符设备文件：c
+
+	块设备文件：b
+
+	软连接：l
+
+	管道文件：p
+
+	套接字：s
+
+	未知文件。
+
+软连接：快捷方式
+
+	为保证软连接可以任意搬移， 创建时务必对源文件使用 绝对路径。
+
+硬链接：
+
+	ln file  file.hard
+
+	操作系统给每一个文件赋予唯一的 inode，当有相同inode的文件存在时，彼此同步。
+
+	删除时，只将硬链接计数减一。减为0时，inode 被释放。
+
+创建用户：
+
+	sudo adduser 新用户名		--- useradd
+
+修改文件所属用户：
+
+	sudo chown 新用户名 待修改文件。
+
+	sudo chown wangwu a.c
+
+删除用户：
+
+	sudo deluser 用户名
+
+创建用户组：
+
+	sudo addgroup 新组名
+
+修改文件所属用户组：
+
+	sudo chgrp 新用户组名 待修改文件。
+
+	sudo chgrp g88 a.c
+
+删除组：
+
+	sudo delgroup 用户组名
+
+
+使用chown 一次修改所有者和所属组：
+
+	sudo chown 所有者：所属组  待操作文件。
+
+
+find命令：找文件
+
+	-type 按文件类型搜索  d/p/s/c/b/l/ f:文件
+
+	-name 按文件名搜索
+
+		find ./ -name "*file*.jpg"
+
+	-maxdepth 指定搜索深度。应作为第一个参数出现。
+
+		find ./ -maxdepth 1 -name "*file*.jpg"
+
+
+	-size 按文件大小搜索. 单位：k、M、G
+
+		find /home/itcast -size +20M -size -50M
+
+	-atime、mtime、ctime 天  amin、mmin、cmin 分钟。
+
+	-exec：将find搜索的结果集执行某一指定命令。
+
+		find /usr/ -name '*tmp*' -exec ls -ld {} \;
+
+	-ok: 以交互式的方式 将find搜索的结果集执行某一指定命令
+
+
+	-xargs：将find搜索的结果集执行某一指定命令。  当结果集数量过大时，可以分片映射。
+
+		find /usr/ -name '*tmp*' | xargs ls -ld 
+
+	-print0：
+		find /usr/ -name '*tmp*' -print0 | xargs  -0 ls -ld 
+
+
+grep命令：找文件内容
+
+	grep -r 'copy' ./ -n
+
+		-n参数：:显示行号
+
+	ps aux | grep 'cupsd'  -- 检索进程结果集。
+
+
+软件安装：
+
+	1. 联网
+
+	2. 更新软件资源列表到本地。  sudo apt-get update
+
+	3. 安装 sudo apt-get install 软件名
+
+	4. 卸载	sudo apt-get remove 软件名
+
+	5. 使用软件包（.deb） 安装：	sudo dpkg -i 安装包名。
+
+tar压缩：
+
+	1. tar -zcvf 要生成的压缩包名	压缩材料。
+
+		tar zcvf  test.tar.gz  file1 dir2   使用 gzip方式压缩。
+
+		tar jcvf  test.tar.gz  file1 dir2   使用 bzip2方式压缩。
+
+tar解压：
+
+	将 压缩命令中的 c --> x
+
+		tar zxvf  test.tar.gz   使用 gzip方式解压缩。
+
+		tar jxvf  test.tar.gz   使用 bzip2方式解压缩。
+
+rar压缩：
+
+	rar a -r  压缩包名（带.rar后缀） 压缩材料。
+
+		rar a -r testrar.rar	stdio.h test2.mp3
+
+rar解压：
+
+	unrar x 压缩包名（带.rar后缀）
+
+zip压缩：
+
+	zip -r 压缩包名（带.zip后缀） 压缩材料。
+
+		zip -r testzip.zip dir stdio.h test2.mp3
+
+zip解压：
+
+	unzip 压缩包名（带.zip后缀） 
+
+		unzip  testzip.zip 
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
