@@ -1,0 +1,323 @@
+
+协议：
+	一组规则。
+
+分层模型结构：
+
+	OSI七层模型：  物、数、网、传、会、表、应
+
+	TCP/IP 4层模型：网（链路层/网络接口层）、网、传、应
+
+		应用层：http、ftp、nfs、ssh、telnet。。。
+
+		传输层：TCP、UDP
+
+		网络层：IP、ICMP、IGMP
+
+		链路层：以太网帧协议、ARP
+
+c/s模型：
+
+	client-server
+
+b/s模型：
+
+	browser-server
+
+			C/S					B/S
+
+	优点：	缓存大量数据、协议选择灵活			安全性、跨平台、开发工作量较小
+
+		速度快
+
+	缺点：	安全性、跨平台、开发工作量较大			不能缓存大量数据、严格遵守 http
+
+
+
+网络传输流程：
+
+	数据没有封装之前，是不能在网络中传递。
+
+	数据-》应用层-》传输层-》网络层-》链路层  --- 网络环境
+
+	
+以太网帧协议：
+
+	ARP协议：根据 Ip 地址获取 mac 地址。
+
+	以太网帧协议：根据mac地址，完成数据包传输。
+
+IP协议：
+	
+	版本： IPv4、IPv6  -- 4位
+
+	TTL： time to live 。 设置数据包在路由节点中的跳转上限。每经过一个路由节点，该值-1， 减为0的路由，有义务将该数据包丢弃
+
+	源IP： 32位。--- 4字节		192.168.1.108 --- 点分十进制 IP地址（string）  --- 二进制 
+
+	目的IP：32位。--- 4字节
+
+
+IP地址：可以在网络环境中，唯一标识一台主机。
+
+端口号：可以网络的一台主机上，唯一标识一个进程。
+
+ip地址+端口号：可以在网络环境中，唯一标识一个进程。
+
+
+UDP：
+	16位：源端口号。	2^16 = 65536  
+
+	16位：目的端口号。
+
+TCP协议：
+
+	16位：源端口号。	2^16 = 65536  
+
+	16位：目的端口号。
+
+	32序号;
+
+	32确认序号。	
+
+	6个标志位。
+
+	16位窗口大小。	2^16 = 65536 
+
+
+网络套接字：  socket
+
+	一个文件描述符指向一个套接字（该套接字内部由内核借助两个缓冲区实现。）
+
+	在通信过程中， 套接字一定是成对出现的。
+
+网络字节序：
+
+	小端法：（pc本地存储）	高位存高地址。地位存低地址。	int a = 0x12345678
+
+	大端法：（网络存储）	高位存低地址。地位存高地址。
+
+	htonl --> 本地--》网络 （IP）			192.168.1.11 --> string --> atoi --> int --> htonl --> 网络字节序
+
+	htons --> 本地--》网络 (port)
+
+	ntohl --> 网络--》 本地（IP）
+
+	ntohs --> 网络--》 本地（Port）
+
+IP地址转换函数：
+
+	int inet_pton(int af, const char *src, void *dst);		本地字节序（string IP） ---> 网络字节序
+
+		af：AF_INET、AF_INET6
+
+		src：传入，IP地址（点分十进制）
+
+		dst：传出，转换后的 网络字节序的 IP地址。 
+
+		返回值：
+
+			成功： 1
+
+			异常： 0， 说明src指向的不是一个有效的ip地址。
+
+			失败：-1
+	
+       const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);	网络字节序 ---> 本地字节序（string IP）
+
+		af：AF_INET、AF_INET6
+
+		src: 网络字节序IP地址
+
+		dst：本地字节序（string IP）
+
+		size： dst 的大小。
+
+		返回值： 成功：dst。 	
+
+			失败：NULL
+
+
+sockaddr地址结构：	IP + port	--> 在网络环境中唯一标识一个进程。
+
+	struct sockaddr_in addr;
+
+	addr.sin_family = AF_INET/AF_INET6				man 7 ip
+
+	addr.sin_port = htons(9527);
+			
+		int dst;
+
+		inet_pton(AF_INET, "192.157.22.45", (void *)&dst);
+
+	addr.sin_addr.s_addr = dst;
+
+	【*】addr.sin_addr.s_addr = htonl(INADDR_ANY);		取出系统中有效的任意IP地址。二进制类型。
+
+	bind(fd, (struct sockaddr *)&addr, size);
+
+
+socket函数：
+
+	#include <sys/socket.h>
+
+	int socket(int domain, int type, int protocol);		创建一个 套接字
+
+		domain：AF_INET、AF_INET6、AF_UNIX
+
+		type：SOCK_STREAM、SOCK_DGRAM
+
+		protocol: 0 
+
+		返回值：
+	
+			成功： 新套接字所对应文件描述符
+
+			失败: -1 errno
+
+	 #include <arpa/inet.h>
+
+	 int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);		给socket绑定一个 地址结构 (IP+port)
+
+		sockfd: socket 函数返回值
+
+			struct sockaddr_in addr;
+
+			addr.sin_family = AF_INET;
+
+			addr.sin_port = htons(8888);
+
+			addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+		addr: 传入参数(struct sockaddr *)&addr
+
+		addrlen: sizeof(addr) 地址结构的大小。
+
+		返回值：
+
+			成功：0
+
+			失败：-1 errno
+
+	int listen(int sockfd, int backlog);		设置同时与服务器建立连接的上限数。（同时进行3次握手的客户端数量）
+
+		sockfd: socket 函数返回值
+
+		backlog：上限数值。最大值 128.
+
+
+		返回值：
+
+			成功：0
+
+			失败：-1 errno	
+
+	int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);	阻塞等待客户端建立连接，成功的话，返回一个与客户端成功连接的socket文件描述符。
+
+		sockfd: socket 函数返回值
+
+		addr：传出参数。成功与服务器建立连接的那个客户端的地址结构（IP+port）
+
+			socklen_t clit_addr_len = sizeof(addr);
+
+		addrlen：传入传出。 &clit_addr_len
+
+			 入：addr的大小。 出：客户端addr实际大小。
+
+		返回值：
+
+			成功：能与客户端进行数据通信的 socket 对应的文件描述。
+
+			失败： -1 ， errno
+
+	
+       int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);	  使用现有的 socket 与服务器建立连接
+
+		sockfd： socket 函数返回值
+
+			struct sockaddr_in srv_addr;		// 服务器地址结构
+
+			srv_addr.sin_family = AF_INET;
+
+			srv_addr.sin_port = 9527 	跟服务器bind时设定的 port 完全一致。
+
+			inet_pton(AF_INET, "服务器的IP地址"，&srv_adrr.sin_addr.s_addr);
+
+		addr：传入参数。服务器的地址结构
+
+			
+		addrlen：服务器的地址结构的大小
+
+		返回值：
+
+			成功：0
+
+			失败：-1 errno
+
+		如果不使用bind绑定客户端地址结构, 采用"隐式绑定".
+
+
+TCP通信流程分析:
+
+	server:
+		1. socket()	创建socket
+
+		2. bind()	绑定服务器地址结构
+
+		3. listen()	设置监听上限
+
+		4. accept()	阻塞监听客户端连接
+
+		5. read(fd)	读socket获取客户端数据
+
+		6. 小--大写	toupper()
+
+		7. write(fd)
+
+		8. close();
+
+	client:
+
+		1. socket()	创建socket
+
+		2. connect();	与服务器建立连接
+
+		3. write()	写数据到 socket
+
+		4. read()	读转换后的数据。
+
+		5. 显示读取结果
+
+		6. close()
+
+		
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

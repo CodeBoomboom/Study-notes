@@ -1,0 +1,171 @@
+
+三次握手：
+
+	主动发起连接请求端，发送 SYN 标志位，请求建立连接。 携带序号号、数据字节数(0)、滑动窗口大小。
+
+	被动接受连接请求端，发送 ACK 标志位，同时携带 SYN 请求标志位。携带序号、确认序号、数据字节数(0)、滑动窗口大小。
+
+	主动发起连接请求端，发送 ACK 标志位，应答服务器连接请求。携带确认序号。
+
+四次挥手：
+
+	主动关闭连接请求端， 发送 FIN 标志位。 
+
+	被动关闭连接请求端， 应答 ACK 标志位。 		 ----- 半关闭完成。
+
+
+	被动关闭连接请求端， 发送 FIN 标志位。
+
+	主动关闭连接请求端， 应答 ACK 标志位。		 ----- 连接全部关闭
+
+	
+滑动窗口：
+
+	发送给连接对端，本端的缓冲区大小（实时），保证数据不会丢失。
+
+
+错误处理函数： 
+
+	封装目的： 
+
+		在 server.c 编程过程中突出逻辑，将出错处理与逻辑分开，可以直接跳转man手册。
+
+
+	【wrap.c】								【wrap.h】
+
+
+	存放网络通信相关常用 自定义函数						存放 网络通信相关常用 自定义函数原型(声明)。
+
+	命名方式：系统调用函数首字符大写, 方便查看man手册
+		
+		  如：Listen()、Accept();
+
+	函数功能：调用系统调用函数，处理出错场景。
+
+	在 server.c 和 client.c 中调用 自定义函数
+
+	联合编译 server.c 和 wrap.c 生成 server
+ 
+		 client.c 和 wrap.c 生成 client
+
+
+readn：
+	读 N 个字节
+
+readline：
+
+	读一行
+
+
+read 函数的返回值：
+
+	1. > 0 实际读到的字节数
+
+	2. = 0 已经读到结尾（对端已经关闭）【 ！重 ！点 ！】
+
+	3. -1 应进一步判断errno的值：
+
+		errno = EAGAIN or EWOULDBLOCK: 设置了非阻塞方式 读。 没有数据到达。 
+
+		errno = EINTR 慢速系统调用被 中断。
+
+		errno = “其他情况” 异常。
+
+
+多进程并发服务器：server.c
+
+	1. Socket();		创建 监听套接字 lfd
+	2. Bind()	绑定地址结构 Strcut scokaddr_in addr;
+	3. Listen();	
+	4. while (1) {
+
+		cfd = Accpet();			接收客户端连接请求。
+		pid = fork();
+		if (pid == 0){			子进程 read(cfd) --- 小-》大 --- write(cfd)
+
+			close(lfd)		关闭用于建立连接的套接字 lfd
+
+			read()
+			小--大
+			write()
+
+		} else if （pid > 0） {	
+
+			close(cfd);		关闭用于与客户端通信的套接字 cfd	
+			contiue;
+		}
+	  }
+
+	5. 子进程：
+
+		close(lfd)
+
+		read()
+
+		小--大
+
+		write()	
+
+	   父进程：
+
+		close(cfd);
+
+		注册信号捕捉函数：	SIGCHLD
+
+		在回调函数中， 完成子进程回收
+
+			while （waitpid()）;
+
+
+多线程并发服务器： server.c 
+
+	1. Socket();		创建 监听套接字 lfd
+
+	2. Bind()		绑定地址结构 Strcut scokaddr_in addr;
+
+	3. Listen();		
+
+	4. while (1) {		
+
+		cfd = Accept(lfd, );
+
+		pthread_create(&tid, NULL, tfn, (void *)cfd);
+
+		pthread_detach(tid);  				// pthead_join(tid, void **);  新线程---专用于回收子线程。
+	  }
+
+	5. 子线程：
+
+		void *tfn(void *arg) 
+		{
+			// close(lfd)			不能关闭。 主线程要使用lfd
+
+			read(cfd)
+
+			小--大
+
+			write(cfd)
+
+			pthread_exit（(void *)10）;	
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

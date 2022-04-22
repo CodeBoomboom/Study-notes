@@ -1,0 +1,11 @@
+Linux系统编程网址：		https://www.bilibili.com/video/BV1KE411q7ee
+
+Linux网络编程网址：		https://www.bilibili.com/video/BV1iJ411S7UA
+
+C++基础第一部分：		https://www.bilibili.com/video/BV1RW41147iK
+
+C++基础第二部分：		https://www.bilibili.com/video/BV1RW411476t
+
+stl教程网址： 		https://www.bilibili.com/video/BV1PW411t7Xg
+
+设计模式教程网址：		https://www.bilibili.com/video/BV1KW411t7FV
