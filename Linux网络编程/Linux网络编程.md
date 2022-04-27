@@ -12,9 +12,9 @@
 
 ### 典型协议
 
-传输层 常见协议有TCP/UDP协议。
-
 应用层 常见的协议有HTTP协议，FTP协议。
+
+传输层 常见协议有TCP/UDP协议。
 
 网络层 常见协议有IP协议、ICMP协议、IGMP协议。
 
@@ -22,7 +22,7 @@
 
 TCP[传输控制协议](http://baike.baidu.com/view/544903.htm)（Transmission Control Protocol）是一种面向连接的、可靠的、基于字节流的[传输层](http://baike.baidu.com/view/239605.htm)通信协议。
 
-UDP用户数据报协议（User Datagram Protocol）是[OSI](http://baike.baidu.com/view/113948.htm)参考模型中一种无连接的[传输层](http://baike.baidu.com/view/239605.htm)协议，提供面向事务的简单不可靠信息传送服务。
+UDP用户数据报协议（User Datagram Protocol）是[OSI](http://baike.baidu.com/view/113948.htm)参考模型中一种无连接的[传输层](http://baike.baidu.com/view/239605.htm)协议，提供面向事务的简单不可靠信息传送服务。优点是快速，常用于视频通话等。
 
 HTTP[超文本传输协议](http://baike.baidu.com/view/468465.htm)（Hyper Text Transfer Protocol）是[互联网](http://baike.baidu.com/view/6825.htm)上应用最为广泛的一种[网络协议](http://baike.baidu.com/view/16603.htm)。
 
