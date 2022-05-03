@@ -5052,6 +5052,7 @@ for (;;) {
 #### 主要应用函数
 
 ```cpp
+#include<semaphore.h>
 函数：
     sem_t sem;	定义类型。
     int sem_init(sem_t *sem, int pshared, unsigned int value);//初始化信号量
