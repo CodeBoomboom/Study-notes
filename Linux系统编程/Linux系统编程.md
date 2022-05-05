@@ -3172,9 +3172,9 @@ int main(int argc, char *argv[])
 
 ​	PCB进程控制块是一个结构体(task struct)，除了包含进程id、状态、工作目录、用户id、组id、文件描述符表，还包含了信号相关的信息，主要是阻塞信号集和未决信号集。
 
-​    **阻塞信号集（信号屏蔽字）mask**： 本质：位图。用来记录信号的屏蔽状态。将某些信号设置屏蔽（阻塞），当屏蔽x信号后，再接收到该信号，该信号的处理将推后（解除屏蔽后）。一旦被屏蔽的信号，在解除屏蔽前，一直处于未决态。
+​    **阻塞信号集（信号屏蔽字）mask**： 本质：位图。用来记录信号的屏蔽状态。将某些信号设置屏蔽（阻塞），当屏蔽x信号后，再接收到该信号，该信号的处理将推后（解除屏蔽后）。**一旦被屏蔽的信号，在解除屏蔽前，一直处于未决态。**
 
-​    **未决信号集pending**：本质：位图。用来记录信号的处理状态。该信号集中的信号，表示，已经产生，但尚未被处理。
+​    **未决信号集pending**：本质：位图。用来记录信号的处理状态。该信号集中的信号，表示，**已经产生，但尚未被处理。**
 
 ​		1.信号产生，未决信号集中描述该信号的位立即翻转为1，表示信号处于未决状态，当信号被处理后对应位翻转为0，这一时刻往往非常短暂。
 
@@ -3521,7 +3521,7 @@ int main(int argc, char *argv[])
 ```c++
 #include <signal.h>
 typedef void (*sighandler_t)(int);	//定义一个名为sighandler_t的类型，其指针指向返回值为空，参数为int的函数。（函数指针）
-sighandler_t signal(int signum, sighandler_t handler);
+sighandler_t signal(int signum, sighandler_t handler);//回调handler
 //该函数由ANSI定义，由于历史原因在不同的版本的Unix和Linux中可能有不同的行为，因此应该尽量避免使用signal函数，取而代之的是sigaction函数
 ```
 
@@ -3541,9 +3541,9 @@ int sigaction(int signum, const struct sigaction *act,
               struct sigaction *oldact);
 			signum:信号编号
             act：新的处理状态
-            oldact：旧有的处理状态
+            oldact：旧有的处理状态，传出参数
  struct sigaction {
- 		void     (*sa_handler)(int);//跟signal函数差不多
+ 		void     (*sa_handler)(int);//跟signal函数差不多，回调
         void     (*sa_sigaction)(int, siginfo_t *, void *);//一般不用
         sigset_t   sa_mask; //在信号捕捉函数运行期间代替mask，只工作于信号捕捉函数运行期间
         int        sa_flags;//一些设置参数

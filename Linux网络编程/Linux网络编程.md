@@ -1816,7 +1816,7 @@ int main(int argc, char *argv[])
     struct epoll_event tep, ep[OPEN_MAX];       //tep: epoll_ctl参数  ep[] : epoll_wait参数
 
     tep.events = EPOLLIN; 
-    tep.data.fd = listenfd;           //指定lfd的监听时间为"读"
+    tep.data.fd = listenfd;           //指定lfd的监听事件为"读"
 
     res = epoll_ctl(efd, EPOLL_CTL_ADD, listenfd, &tep);    //将lfd及对应的结构体设置到树上,efd可找到该树
     if (res == -1)
@@ -1945,7 +1945,7 @@ Level Triggered (LT) 水平触发只要有数据都会触发。默认模式。�
 
 #### 比较
 
-LT是**缺省**的工作方式，并同时支持block和no-block socket。在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不做任何操作，内核还是会继续通知你的，所以这种模式编程出错可能性要小一些。**传统的select/poll都是这种模式的代表。**
+LT是**缺省**（默认）的工作方式，并同时支持block和no-block socket。在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不做任何操作，内核还是会继续通知你的，所以这种模式编程出错可能性要小一些。**传统的select/poll都是这种模式的代表。**
 
 **ET是高速工作方式，只支持no-block socket。**在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后他会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知。请注意，如果一直不对这个fd作IO操作（从而导致它再次变成未就绪），内核不会发送更多的通知。
 
