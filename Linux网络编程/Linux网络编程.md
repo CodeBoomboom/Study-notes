@@ -3009,6 +3009,8 @@ https://www.runoob.com/http/http-tutorial.html
 
 ![image-20220412190654894](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220412190654894.png)
 
+^放在最前面表示匹配字符开始，$放最后面表示匹配字符结束
+
 ![image-20220412200442225](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220412200442225.png)
 
 ### sscanf函数
