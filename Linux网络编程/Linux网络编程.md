@@ -1759,7 +1759,7 @@ int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
     	epfd：		//为epoll_creat的句柄（返回值）
 		events：		//用来存内核得到事件的集合，【数组】，传出参数，传出满足监听条件的fd结构体
 		maxevents：	//数组 元素总个数 1024。告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，
-		timeout：	//是超时时间
+		timeout：	//超时时间
 			-1：	//阻塞
 			0：	//立即返回，非阻塞
 			>0：	//指定毫秒
