@@ -1,0 +1,8 @@
+﻿  main.cpp
+G:\Git\GitProject\Study-notes\STL\STLDemo\02 函数模板和普通函数的区别_函数模板调用规则\02 函数模板和普通函数的区别_函数模板调用规则\main.cpp(9,5): error C2562: “MyAdd”:“void”函数返回值
+G:\Git\GitProject\Study-notes\STL\STLDemo\02 函数模板和普通函数的区别_函数模板调用规则\02 函数模板和普通函数的区别_函数模板调用规则\main.cpp(7): message : 参见“MyAdd”的声明
+G:\Git\GitProject\Study-notes\STL\STLDemo\02 函数模板和普通函数的区别_函数模板调用规则\02 函数模板和普通函数的区别_函数模板调用规则\main.cpp(23): message : 查看对正在编译的函数 模板 实例化“void MyAdd<int>(T,T)”的引用
+          with
+          [
+              T=int
+          ]

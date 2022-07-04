@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "82f891e3-a31d-4ad4-96fc-ce97943af82f": {
+      "ProjectGuid": "82f891e3-a31d-4ad4-96fc-ce97943af82f",
+      "DisplayName": "02 函数模板和普通函数的区别_函数模板调用规则",
+      "ColorIndex": 0
+    },
+    "452567ee-c15a-4328-bd70-7b3d7aebe3ce": {
+      "ProjectGuid": "452567ee-c15a-4328-bd70-7b3d7aebe3ce",
+      "DisplayName": "01 模板",
+      "ColorIndex": 1
+    },
+    "ff9df285-99cd-4ad5-8487-0a89632e5fc6": {
+      "ProjectGuid": "ff9df285-99cd-4ad5-8487-0a89632e5fc6",
+      "DisplayName": "06 类模板",
+      "ColorIndex": 2
+    },
+    "f10e8914-c4a9-42bb-91dd-e7b7badf8125": {
+      "ProjectGuid": "f10e8914-c4a9-42bb-91dd-e7b7badf8125",
+      "DisplayName": "07 函数模板案例_char和int类型数组排序",
+      "ColorIndex": 3
+    },
+    "2e512b9e-e13b-4c27-9198-f2e4350e6ab0": {
+      "ProjectGuid": "2e512b9e-e13b-4c27-9198-f2e4350e6ab0",
+      "DisplayName": "08 类模板派生普通类_类模板派生类模板",
+      "ColorIndex": 4
+    },
+    "eca8c750-9344-4092-be30-de3277671ee9": {
+      "ProjectGuid": "eca8c750-9344-4092-be30-de3277671ee9",
+      "DisplayName": "08 类模板派生类模板",
+      "ColorIndex": 5
+    },
+    "4f6d7751-d031-4ad6-aa6c-5019debf4ac8": {
+      "ProjectGuid": "4f6d7751-d031-4ad6-aa6c-5019debf4ac8",
+      "DisplayName": "10 类模板类内实现",
+      "ColorIndex": 6
+    }
+  },
+  "NextColorIndex": 7
+}
