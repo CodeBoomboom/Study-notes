@@ -35,7 +35,22 @@
       "ProjectGuid": "4f6d7751-d031-4ad6-aa6c-5019debf4ac8",
       "DisplayName": "10 类模板类内实现",
       "ColorIndex": 6
+    },
+    "6ff4fb29-fc12-414a-9d11-ce9deb22f6bf": {
+      "ProjectGuid": "6ff4fb29-fc12-414a-9d11-ce9deb22f6bf",
+      "DisplayName": "12 类模板类外实现",
+      "ColorIndex": 7
+    },
+    "e29efdb9-083c-4e34-9066-1aa34da2e58e": {
+      "ProjectGuid": "e29efdb9-083c-4e34-9066-1aa34da2e58e",
+      "DisplayName": "17 MyArray",
+      "ColorIndex": 8
+    },
+    "983d73f3-043c-467d-84a2-dd9c107a5cf7": {
+      "ProjectGuid": "983d73f3-043c-467d-84a2-dd9c107a5cf7",
+      "DisplayName": "19 类型转换",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 7
+  "NextColorIndex": 10
 }
