@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31919.166
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32428.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "13 开闭原则", "13 开闭原则\13 开闭原则.vcxproj", "{320317AB-E9C0-4CB1-B286-52D067ADC9A3}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "15 合成复用原则", "15 合成复用原则\15 合成复用原则.vcxproj", "{7A68AD9E-7963-4442-BF38-5DB95F099D3E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17 依赖倒转原则", "17 依赖倒转原则\17 依赖倒转原则.vcxproj", "{DCC979A6-A1EB-4ADC-B122-7812ED75C8A8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "19 简单工厂模式", "19 简单工厂模式\19 简单工厂模式.vcxproj", "{B727BF36-8E23-4369-9521-856EE9E8C8AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{DCC979A6-A1EB-4ADC-B122-7812ED75C8A8}.Release|x64.Build.0 = Release|x64
 		{DCC979A6-A1EB-4ADC-B122-7812ED75C8A8}.Release|x86.ActiveCfg = Release|Win32
 		{DCC979A6-A1EB-4ADC-B122-7812ED75C8A8}.Release|x86.Build.0 = Release|Win32
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Debug|x64.ActiveCfg = Debug|x64
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Debug|x64.Build.0 = Debug|x64
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Debug|x86.ActiveCfg = Debug|Win32
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Debug|x86.Build.0 = Debug|Win32
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Release|x64.ActiveCfg = Release|x64
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Release|x64.Build.0 = Release|x64
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Release|x86.ActiveCfg = Release|Win32
+		{B727BF36-8E23-4369-9521-856EE9E8C8AB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
