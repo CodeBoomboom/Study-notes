@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "eca8c750-9344-4092-be30-de3277671ee9": {
+      "ProjectGuid": "eca8c750-9344-4092-be30-de3277671ee9",
+      "DisplayName": "08 类模板派生类模板",
+      "ColorIndex": 0
+    },
+    "983d73f3-043c-467d-84a2-dd9c107a5cf7": {
+      "ProjectGuid": "983d73f3-043c-467d-84a2-dd9c107a5cf7",
+      "DisplayName": "19 类型转换",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
