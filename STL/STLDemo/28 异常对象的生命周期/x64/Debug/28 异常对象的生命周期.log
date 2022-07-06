@@ -1,0 +1,4 @@
+﻿  28 异常对象的生命周期.cpp
+G:\Git\GitProject\Study-notes\STL\STLDemo\28 异常对象的生命周期\28 异常对象的生命周期.cpp(51,25): warning C4101: “e”: 未引用的局部变量
+G:\Git\GitProject\Study-notes\STL\STLDemo\28 异常对象的生命周期\28 异常对象的生命周期.cpp(59,25): warning C4101: “e”: 未引用的局部变量
+  28 异常对象的生命周期.vcxproj -> G:\Git\GitProject\Study-notes\STL\STLDemo\x64\Debug\28 异常对象的生命周期.exe

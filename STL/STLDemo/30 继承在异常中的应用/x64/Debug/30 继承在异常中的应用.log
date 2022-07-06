@@ -1,0 +1,3 @@
+﻿  30 继承在异常中的应用.cpp
+G:\Git\GitProject\Study-notes\STL\STLDemo\29 编写自己的异常类\30 继承在异常中的应用.cpp(42,33): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  30 继承在异常中的应用.vcxproj -> G:\Git\GitProject\Study-notes\STL\STLDemo\x64\Debug\30 继承在异常中的应用.exe

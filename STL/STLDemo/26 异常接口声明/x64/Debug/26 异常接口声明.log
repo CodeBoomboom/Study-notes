@@ -1,0 +1,5 @@
+﻿  26 异常接口声明.cpp
+G:\Git\GitProject\Study-notes\STL\STLDemo\26 异常接口声明\26 异常接口声明.cpp(6,35): warning C4290: 忽略 C++ 异常规范，但指示函数不是 __declspec(nothrow)
+G:\Git\GitProject\Study-notes\STL\STLDemo\26 异常接口声明\26 异常接口声明.cpp(12,1): warning C4297: “func01”: 假定函数不引发异常，但确实发生了
+G:\Git\GitProject\Study-notes\STL\STLDemo\26 异常接口声明\26 异常接口声明.cpp(12,1): message : 在函数上指定了 __declspec(nothrow)、throw()、noexcept(true)或 noexcept
+  26 异常接口声明.vcxproj -> G:\Git\GitProject\Study-notes\STL\STLDemo\x64\Debug\26 异常接口声明.exe

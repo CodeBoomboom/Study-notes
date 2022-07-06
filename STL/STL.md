@@ -590,3 +590,741 @@ int main()
 ![image-20220705184531509](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220705184531509.png)
 
 # 21 类型转换const_cast和reinterpret_cast
+
+const_cast的作用是增加或去除变量的const性
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include<iostream>
+using namespace std;
+
+class Buliding{};
+class Animal{};
+class Cat : public Animal {};
+
+//static_cast  用于内置的数据类型或者具有继承关系的指针或者引用
+void test01() {
+    //基础类型转换
+    int a = 51;
+    char c = static_cast<char>(a);
+    cout << "a:" << a << endl;
+    cout << "c:" << c << endl;
+
+    //基础数据i类型指针
+    //int* p = NULL;
+    //char* sp = static_cast<char*>(p);
+
+    //对象指针
+    //Buliding* building = NULL;
+    //Animal* animal = static_cast<Animal*>(building);
+
+    //转换具有继承关系的指针
+    //父类指针转成子类指针
+    Animal* ani = NULL;
+    Cat* cat = static_cast<Cat*>(ani);
+
+    //转换具有继承关系的指针
+    //子类指针转成父类指针
+    Cat* soncat = NULL;
+    Animal* anifather = static_cast<Animal*>(soncat);
+
+    //父类引用转为子类引用
+    Animal aniobj;
+    Animal& aniref = aniobj;
+    Cat& cat1 = static_cast<Cat&>(aniref);
+
+    Cat catobj;
+    Cat& catrief = catobj;
+    Animal& anifather2 = static_cast<Animal &>(catrief);
+
+    //结论：static_cast用于内置的数据类型或者具有继承关系的指针或者引用
+}
+
+//dynamic_cast  转换具有继承关系的指针或者引用，在转换前会进行队形类型的检查
+void test02() {
+    //基础类型转换
+    //int a = 51;
+    //char c = dynamic_cast<char>(a);
+    //cout << "a:" << a << endl;
+    //cout << "c:" << c << endl;
+
+    //基础数据类型指针
+    //int* p = NULL;
+    //char* sp = dynamic_cast<char*>(p);
+
+    //非继承关系的指针或者引用
+    //Animal* ani = NULL;
+    //Buliding* building = dynamic_cast<Building*>(ani);
+
+    //具有继承关系的指针
+    //Animal* ani = NULL;
+    //Cat* cat = dynamic_cast<Cat*>(ani);   //失败原因：dynamic_cast会进行类型检查，父类不能转换为子类指针（小转大不安全）
+
+    Cat* cat = NULL;
+    Animal* ani = dynamic_cast<Animal*>(cat);//成功：子类转为父类，大转小安全
+
+    //结论：dynamic只能转换具有继承关系的指针或者引用，并且只能由子类型转为基类型
+}
+
+//const_cast    指针、引用、对象指针  取消/增加const属性
+void test03() {
+    //引用
+    int a = 10;
+    const int& b = a;
+    int & c = const_cast<int&>(b);
+    c = 20;
+    cout << "a:" << a << endl;  
+    cout << "b:" << b << endl;
+    cout << "c:" << c << endl;
+
+    //指针
+    int pp = 0;
+    const int* p = &pp;
+    int* p2 = const_cast<int*>(p);
+    if (p2) {
+        *p2 = 10;
+    }
+    cout << *p2 << endl;
+
+
+    int* p3 = NULL;
+    const int* p4 = const_cast<const int*>(p3);
+
+    //总结：增加或者去除变量的const属性
+}
+
+//reinterpret_cast 强制类型转换  无关的指针类型都可以进行转换 包括函数指针
+typedef void(*FUNC1)(int, int);
+typedef int(*FUNC2)(int, char*);
+void test04() {
+    //1.无关的指针类型都可以进行转换
+    Buliding* buliding = NULL;
+    Animal* animal = reinterpret_cast<Animal*>(buliding);
+
+    //2.函数指针转换
+    FUNC1 func1;
+    FUNC2 func2 = reinterpret_cast<FUNC2>(func1);
+
+}
+
+
+int main()
+{
+    cout << "test01:" << endl;;
+    test01();
+    cout << "test02:" << endl;
+    test02();
+    cout << "test03:" << endl;
+    test03();
+    cout << "test04:" << endl;
+    test04();
+
+    return 0;
+}
+```
+
+![image-20220706113358023](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706113358023.png)
+
+# 22 异常理论概念
+
+![image-20220706151341214](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706151341214.png)
+
+
+
+![image-20220706151358454](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706151358454.png)
+
+
+
+![image-20220706151403087](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706151403087.png)
+
+![image-20220706151409390](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706151409390.png)
+
+
+
+
+
+# 23 异常基本语法
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//异常基本语法
+
+int divide(int x, int y) {
+    if (y == 0) {
+        throw y;    //抛异常
+    }
+    return x / y;
+}
+
+void test01() {
+    //试着去捕获异常
+    try {
+        divide(10, 0);
+    }
+    catch (int e) {  //异常是根据类型进行匹配
+        cout << "除数为" <<e<< endl;
+    }
+}
+
+
+void CallDivide(int x, int y) {
+    divide(x, y);
+}
+void test02() {
+    //试着去捕获异常
+    try {
+        CallDivide(10, 0);
+    }
+    catch (int e) {  //异常是根据类型进行匹配
+        cout << "除数为" << e << endl;
+    }
+}
+
+
+int main()
+{
+    test01();
+    test02();
+    return 0;
+}
+```
+
+![image-20220706154008615](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706154008615.png)
+
+# 24 上午课程回顾
+
+略
+
+# 25 栈解旋
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//栈解旋
+class Person {
+public:
+    Person() {
+        cout << "对象构建" << endl;
+    }
+    ~Person() {
+        cout << "对象析构" << endl;
+    }
+};
+
+int divide(int x, int y) {
+    Person p1, p2;
+    if (y == 0) {
+        throw y;
+    }
+    return x / y;
+}
+
+void test01() {
+    try {
+        divide(10, 0); //栈解旋就是当发生异常时 ，发生异常的函数的局部变量的内存都会自动析构掉
+    }
+    catch (int e) {
+        cout << "异常捕获" << endl;
+    }
+}
+int main()
+{
+    test01();
+    return 0;
+}
+```
+
+# 26 异常接口声明
+
+![image-20220706155239668](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706155239668.png)
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//这个函数只能抛出int float char三种类型的异常，抛出其他的异常会报错，中止程序
+void func() throw(int, float, char) {
+    throw "adv";//char*
+}
+
+//不能抛出任何异常      在vc中可以正常跑，是因为vc对这个可能支持不太好，在linux中是无法跑的
+void func01() throw() {
+    throw - 1;
+}
+
+int main()
+{
+    //try {
+    //    func();
+    //}
+    //catch (char* str) {
+    //    cout << str << endl;
+    //}
+    //catch (int e) {
+    //    cout << e << endl;
+    //}
+    //catch (...) {   //  捕获所有异常
+
+    //}
+
+    try {
+        func01();
+    }
+    catch (int a) {
+        cout << a << endl;
+    }
+    return 0;
+}
+```
+
+# 27 异常类型
+
+![image-20220706160625190](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706160625190.png)
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//异常类型
+
+void func01() {
+    throw 1;//抛出int类型异常
+}
+
+void func02() {
+    throw "abc";//抛出char*类型异常
+}
+
+class MyException {
+public:
+    MyException(const char* str) {
+        error = new char[strlen(str) + 1];
+        strcpy(error, str);
+    }
+    //27解决办法：增加拷贝构造函数和=运算法重载
+    MyException(const MyException& copy) {
+        this->error = new char[strlen(copy.error) + 1];
+        strcpy(this->error, copy.error);
+    }
+    MyException& operator=(const MyException& copy) {
+        if (this->error != NULL) {
+            delete[] this->error;
+            this->error = NULL;
+        }
+        this->error = new char[strlen(copy.error) + 1];
+        strcpy(this->error, copy.error);
+    }
+
+    void what() {
+        cout << error << endl;
+    }
+    ~MyException() {
+        if (error != NULL) {
+            delete[] error;
+        }
+    }
+public:
+    char* error;
+};
+
+void func03() {
+    throw MyException("我刚写的异常");
+}
+
+void test01() {
+    try {
+        func01();
+    }
+    catch (int e) {
+        cout << "捕获int异常" << e << endl;
+    }
+
+    try {
+        func02();
+    }
+    catch (const char* e) {
+        cout << "捕获char*异常" << e << endl;
+    }
+
+    try {
+        func03();
+    }
+    catch (MyException e) {//27 会崩，原因：throw的匿名对象会拷贝给此处的e，这两个的error指针都指向同一块内存空间，而我们又没写拷贝构造函数，所以析构的时候同一内存空间会析构两次
+        cout << "捕获MyException异常" << endl;
+        e.what();
+    }
+
+}
+
+
+int main()
+{
+    test01();
+    return 0;
+}
+```
+
+# 28 异常对象生命周期
+
+![image-20220706170928719](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706170928719.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+class MyException {
+public:
+    MyException() {
+        cout << "构造函数" << endl;
+    }
+
+    MyException(const MyException& copy) {
+        cout << "拷贝构造" << endl;
+    }
+    MyException(const MyException&& copy) {
+        cout << "拷贝构造" << endl;
+    }
+    ~MyException() {
+        cout << "析构函数" << endl;
+        }
+};
+void func01() {
+    throw MyException();    //创建匿名对象 调用构造
+}
+
+void func02() {
+    MyException err = MyException();
+    throw& err;
+    //throw &(MyException());    //创建匿名对象 调用构造    //匿名对象是右值无法取引用，不知道视频是怎么可以的
+}
+
+void func03() {
+    throw new MyException();
+}
+
+void test01() {
+
+    //普通元素类型  引用  指针  
+
+    //普通元素类型 catch处理完之后就析构
+    try {
+        func01();
+    }
+    catch (MyException e) { //调用拷贝构造
+        cout << "异常捕获" << endl;
+    }
+
+    //引用类型 不用调用拷贝构造，catch处理完就析构
+    try {
+        func01();
+    }
+    catch (MyException& e) { //不会再调用任何构造
+        cout << "异常捕获" << endl;
+    }
+
+    //指针类型 在catch前就已经析构了，就不能在catch里调用MyException对象的方法等进行处理了
+    try {
+        func02();
+    }
+    catch (MyException* e) { 
+        cout << "异常捕获" << endl;
+    }
+
+    //指针类型 如果想在catch里调用MyException对象的方法等进行处理，需要这么做：
+    try {
+        func03();
+    }
+    catch (MyException* e) {
+        cout << "异常捕获" << endl;
+        delete e;//手动释放
+    }
+}
+
+int main()
+{
+    test01();
+
+
+    return 0;
+}
+```
+
+# 29 C标准异常类使用举例_编写自己的异常类
+
+![image-20220706170955393](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706170955393.png)
+
+![image-20220706171002642](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706171002642.png)
+
+![image-20220706171008480](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706171008480.png)
+
+
+
+最重要的两点：
+
+1.继承标准异常类
+
+2.重载父类的what函数和虚析构函数
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<exception>
+#include<stdexcept>
+using namespace std;
+//编写自己的异常类
+
+class Person {
+public:
+    Person() {
+        mAge = 0;
+    }
+    void setAge(int age) {
+        if (age < 0 || age >100) {
+            throw out_of_range("年龄应该在0-100之间！");
+        }
+        this->mAge = age;
+    }
+public:
+    int mAge;
+};
+
+void test01() {
+    Person p;
+    //try {
+    //    p.setAge(1000);
+    //}
+    //catch (out_of_range e) {
+    //    cout << e.what() << endl;
+    //}
+    try {
+        p.setAge(1000);
+    }
+    catch (exception e) {
+        cout << e.what() << endl;
+    }
+}
+
+
+class MyOutOfRange : public exception {
+public:
+    MyOutOfRange(const char* error) {
+        pError = new char[strlen(error) + 1];
+        strcpy(pError, error);
+    }
+    ~MyOutOfRange() {
+        if (pError != NULL) {
+            delete[] pError;
+        }
+    }
+    virtual char const* what() const {
+        return pError;
+    }
+public:
+    char* pError;
+
+};
+
+void func02() {
+    throw MyOutOfRange("我自己的out_of_range");
+}
+
+void test02() {
+    try {
+       func02();
+    }
+    catch (exception& e) {  //没写拷贝构造，所以不使用普通类型来接异常，使用引用接
+        cout << e.what() << endl;
+    }
+}
+
+int main()
+{
+    test01();
+    test02();
+    return 0;
+}
+```
+
+# 30 继承在异常中的应用
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+//继承在异常中的应用
+
+//异常基类
+class BaseMyException {
+public:
+    virtual void what() = 0;
+    virtual ~BaseMyException(){}
+};
+
+class TargetSpaceNullException :public BaseMyException {
+public:
+    virtual void what() {
+        cout << "目标空间空" << endl;
+    }
+    ~TargetSpaceNullException() {
+
+    }
+};
+
+class SourceSpaceNullException :public BaseMyException {
+public:
+    virtual void what() {
+        cout << "源空间为空" << endl;
+    }
+    ~SourceSpaceNullException() {
+
+    }
+};
+
+
+void copy_str(char* target, const char* source) {
+    if (target == NULL) {
+        throw TargetSpaceNullException();
+    }
+
+    if (source == NULL) {
+        throw SourceSpaceNullException();
+    }
+    int len = strlen(source) + 1;
+    while (*source != '\0') {
+        *target = *source;
+        target++;
+        source++;
+    }
+
+}
+
+
+
+int main()
+{
+    const char* source = "abcdefg";
+    char buf[1024] = {0};
+    try {
+        copy_str(NULL, source);
+    }
+    catch (BaseMyException& e) {
+        e.what();
+    }
+
+    try {
+        copy_str(buf, NULL);
+    }
+    catch (BaseMyException& e) {
+        e.what();
+    }
+
+
+    try {
+        copy_str(buf, source);
+    }
+    catch (BaseMyException& e) {
+        e.what();
+    }
+
+    cout << buf << endl;
+
+
+    return 0;
+}
+```
+
+# 31 C输入和输出流_缓冲区
+
+![image-20220706180706517](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706180706517.png)
+
+![image-20220706180711775](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706180711775.png)
+
+
+
+![image-20220706180716754](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220706180716754.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
