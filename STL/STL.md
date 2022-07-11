@@ -1258,6 +1258,1446 @@ int main()
 
 
 
+# 32 C标准输入流
+
+![image-20220708111718765](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708111718765.png)
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+#if 0
+cout;    //全局流对象 输出数据到显示器
+cin;
+//cerr没有缓冲区，clog有缓冲区
+cerr;//标准错误 输出数据到显示器
+clog;//标准日志 输出数据到显示器
+#endif
+
+//标准输入流 cin.get()
+void test01() {
+    //char ch;
+    //while ((ch = cin.get()) != EOF) {
+    //    cout << ch << endl;
+    //}
+
+    //cin.get()
+    char ch2;
+    //cin.get(ch2);//读取一个字符，放入ch2
+    char buf[256] = { 0 };
+    //cin.get(buf, 256);//从缓冲区读一个字符串 ，放入buf
+    cin.getline(buf, 256);//读取一行数据 不读换行符
+    cout << buf << endl;
+}
+
+
+//cin.ignore() 忽略当前的字符
+void test02() {
+    char ch;
+    cin.get(ch);//从缓冲区要数据 阻塞
+    cout << ch << endl;
+    cin.ignore();//忽略掉缓冲区的一个字符，从缓冲区取走了（缓冲区已经没有这个字符了）
+    cin.ignore(10, '\n');//忽略缓冲区10个字符，如果到\n，则忽略\n前的字符
+    cin.get(ch);
+    cout << ch << endl;
+}
+
+//cin.peek()    与cin.get不同，cin.peek只是看一下缓冲区数据，并没有取走
+void test03() {
+    cout << "请输入数字或者字符串" << endl;
+    char ch;
+    ch = cin.peek();    //偷窥一下缓冲区，返回第一个字符
+    if (ch >='0' && ch <= '9') {
+        int num;
+        cin >> num;
+        cout << "您输入的是数字" << num << endl;
+    }
+    else {
+        char buf[256] = { 0 };
+        cin >> buf;
+        cout << "您输入的是字符串" <<buf<< endl;
+    }
+}
+
+//cin.putback  cin.get
+void test04() {
+    cout << "请输入数字或者字符串" << endl;
+    char ch;
+    ch = cin.get(); 
+    if (ch >= '0' && ch <= '9') {
+        cin.putback(ch);//ch放回到缓冲区
+        int num;
+        cin >> num;
+        cout << "您输入的是数字" << num << endl;
+    }
+    else {
+        cin.putback(ch);//ch放回到缓冲区
+        char buf[256] = { 0 };
+        cin >> buf;
+        cout << "您输入的是字符串" << buf << endl;
+    }
+
+}
+
+
+
+int main()
+{
+    //test01();
+    //test02();
+    //test03();
+    test04();
+
+    return 0;
+}
+```
+
+# 33 标准输出_格式化输出
+
+![image-20220708150654952](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708150654952.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<iomanip>
+using namespace std;
+//标准输出流
+
+
+void test01() {
+    //cout << "hello world";
+    //cout.flush();//刷新缓冲区
+    cout.put('h').put('e').put('l') << endl;    //put向缓冲区写字符
+
+    cout.write("hello xdx",strlen("hello xdx"))<<endl;
+}
+
+//格式化输出
+void test02() {
+    //成员方法的方式
+    int num = 10;
+    cout << num << endl;
+    cout.unsetf(ios::dec);//卸载当前默认的10进制输出方式
+    cout.setf(ios::oct);//设置为八进制输出
+    cout.setf(ios::showbase);
+    cout << num << endl;
+    cout.unsetf(ios::oct);//卸载八进制
+    cout.setf(ios::hex);//16进制
+    cout << num << endl;
+
+    cout.width(10);//设置位宽
+    cout.fill('*');//空余部分用*填充
+    cout.setf(ios::left);//左对齐
+    cout << num << endl;
+
+    //通过控制符  需要引入头文件iomanip
+    int num2 = 10;
+    cout << hex
+        << setiosflags(ios::showbase)
+        << setw(10)
+        <<setfill('~')
+        <<setiosflags(ios::left)
+        << num2
+        << endl;
+
+}
+
+int main()
+{
+    test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
+
+# 34 文本文件操作
+
+![image-20220708152908693](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708152908693.png)
+
+
+
+![image-20220708152917543](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708152917543.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+void test01() {
+    const char* sourcename = "G:\\Git\\GitProject\\Study-notes\\STL\\STLDemo\\34 文本文件操作\\source.txt";
+    const char* targetname = "G:\\Git\\GitProject\\Study-notes\\STL\\STLDemo\\34 文本文件操作\\target.txt";
+    ifstream ism(sourcename, ios::in);    //只读方式打开文件  有参构造
+    ofstream osm(targetname, ios::out);
+    //ifstream isml;
+    //isml.open(filename, ios::in);
+    if (!ism) {
+        cout << "打开文件失败" << endl;
+        return;
+    }
+
+    //读文件
+    char ch;
+    while (ism.get(ch)) {
+        cout << ch;
+        osm.put(ch);
+    }
+
+    //关闭文件
+    ism.close();
+    osm.close();
+
+}
+
+int main()
+{
+    test01();
+    system("pause");
+    return 0;
+}
+```
+
+# 35 二进制文件读写
+
+```cpp
+//二进制文件操作  对象序列化
+class Person {
+public:
+    Person(){}
+    Person(int age, int id): age(age), id(id){}
+    void Show() {
+        cout << "age:" << age << "id:" << id << endl;
+    }
+public:
+    int age; 
+    int id;
+};
+
+void test02() {
+    //文本模式读的是文本文件吗
+    //二进制模式读的是二进制文件吗
+    //都不是，都是二进制，只是换行符不一样，windows是\r\n，linux是\n
+
+    Person p1(10, 20);  //二进制
+    Person p2(30, 40);
+
+    //把p1 p2 放到文件
+    const char* targetname = "G:\\Git\\GitProject\\Study-notes\\STL\\STLDemo\\34 文本文件操作\\class.txt";
+    ofstream osm(targetname, ios::out | ios::binary);//二进制的方式
+    osm.write((char *)&p1, sizeof(Person));//二进制方式写文件
+    osm.write((char*)&p2, sizeof(Person));
+
+    osm.close();
+
+    ifstream ism(targetname, ios::in | ios::binary);
+    Person p3, p4;
+    ism.read((char*)&p3, sizeof(Person));//从文件读取数据
+    ism.read((char*)&p4, sizeof(Person));
+    p3.Show();
+    p4.Show();
+
+}
+```
+
+
+
+# 36 STL基本理论_容器_算法_迭代器概念
+
+![image-20220708163916020](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708163916020.png)
+
+![image-20220708163923387](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708163923387.png)
+
+![image-20220708163928024](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708163928024.png)
+
+![image-20220708163933432](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708163933432.png)
+
+容器：
+
+![image-20220708164456487](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708164456487.png)
+
+
+
+![image-20220708163953617](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708163953617.png)
+
+
+
+迭代器：
+
+![image-20220708164003438](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708164003438.png)
+
+算法：
+
+![image-20220708164012997](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708164012997.png)
+
+![image-20220708164026969](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708164026969.png)
+
+
+
+# 37 STL容器算法迭代器分离案例
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//算法，负责统计某个元素的个数
+int mycount(int* begin, int* end, int val) {
+    int num = 0;
+    while (begin != end) {
+        if (*begin == val) {
+            num++;
+        }
+        begin++;
+    }
+    return num;
+}
+
+
+int main()
+{
+
+    //数组 容器
+    int arr[] = { 0,7,5,4,9,2,0 };
+    int* begin = arr;   //迭代器开始位置
+    int* end = &(arr[sizeof(arr) / sizeof(int)]);
+
+    int num = mycount(begin, end, 0);
+    cout << "num:" << num << endl;
+    system("pause");
+    return 0;
+}
+```
+
+# 38 STL helloworld程序
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include <vector>   //动态数组 可变数组
+#include<algorithm>//算法
+using namespace std;
+
+void PrintVector(int v) {
+    cout << v << endl;
+}
+
+//STL基本语法
+void test01() {
+    vector<int> v;//定义一个容器并指定存放的元素类型是int
+
+    v.push_back(10);//把数据放在容器尾部
+    v.push_back(20);
+    v.push_back(30);
+    v.push_back(40);
+
+    //通过STL提供的for_each算法遍历
+    //容器提供的迭代器
+
+    vector<int>::iterator pBegin = v.begin();
+    vector<int>::iterator pEnd = v.end();
+
+    //容器中可能存放基础的数据类型，也可能存放自定义数据类型，每次调用回调函数来打印
+    for_each(pBegin, pEnd, PrintVector);
+
+}
+
+//容器也可以存放自定义数据类型
+class Person {
+public:
+    Person(int age, int id) : age(age), id(id) {}
+    void Show() {
+        cout << "age:" << age << "id:" << id << endl;
+    }
+public:
+    int age;
+    int id;
+};
+
+void PrintPerson(Person p) {
+    p.Show();
+}
+
+void test02() {
+    vector<Person> v;
+    Person p1(10, 20), p2(20, 30);
+    
+    v.push_back(p1);
+    v.push_back(p2);
+
+    vector<Person>::iterator pBegin = v.begin();
+    vector<Person>::iterator pEnd = v.end();
+    for_each(pBegin, pEnd, PrintPerson);
+
+    //遍历
+    for (vector<Person>::iterator it = v.begin(); it != v.end(); it++) {
+        cout << (*it).age << (*it).id << endl;
+    }
+
+}
+
+
+int main()
+{
+    test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
+
+
+
+# 39 上午课程回顾
+
+略
+
+
+
+# 40 string容器概念
+
+![image-20220708173817673](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220708173817673.png)
+
+
+
+# 41 string初始化 拼接 赋值 查找
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+//初始化
+void test01() {
+    string s1;  //无参构造
+    string s2(10, 'a');
+    string s3("xdx");
+    string s4(s3);  //拷贝构造
+}
+
+//赋值操作
+void test02() {
+    string s1;
+    string s2("xdx");
+    s1 = "xdx1";
+    cout << s1 << endl;
+    s1 = s2;
+    cout << s1 << endl;
+    s1 = 'x';
+    cout << s1 << endl;
+
+    //成员方法
+    s1.assign("jkl");
+    cout << s1 << endl;
+}
+
+
+//赋值操作
+void test03() {
+    string s1 = "xedx";
+
+    //重载[]操作符
+    for (int i = 0; i < s1.size(); i++) {
+        cout << s1[i]<<" ";
+    }
+    cout << endl;
+
+    //at成员函数
+    for (int i = 0; i < s1.size(); i++) {
+        cout << s1.at(i)<<" ";
+    }
+    cout << endl;
+
+    //区别：[]方式如果访问越界，直接挂了
+                 //at方式会抛出异常，out of range
+    try
+    {
+        //cout << s1[100]<<endl;
+        cout << s1.at(100) << endl;
+    }
+    catch (...)
+    {
+        cout << "越界" << endl;
+    	
+    }
+}
+
+//拼接操作
+void test04() {
+    string s = "abcde";
+    s += "ads";
+    string s2 = "11";
+    s += s2;
+    cout << s << endl;
+
+    string s3 = "22222";
+    s.append(s3);
+    cout << s << endl;
+
+    string s4 = s2 + s3;
+    cout << s4 << endl;
+}
+
+
+//查找
+void test05() {
+    string s = "abcdefghjfgkl";
+    //第一次
+    int pos = s.find('fg');
+    cout <<"pos:"<< pos << endl;
+
+    //最后一次
+    pos = s.rfind('fg');
+    cout << "pos:" << pos << endl;
+}
+
+//替换
+void test06() {
+    string s = "abcdefghjfgkl";
+    s.replace(0, 2, "111");
+    cout << s << endl;
+}
+
+//比较
+void test07() {
+    string s1 = "abcd";
+    string s2 = "abce"; 
+
+    if (s1.compare(s2) == 0) {
+        cout << "两个字符串相等" << endl;
+    }
+    else
+    {
+        cout << "两个字符串不相等" << endl;
+    }
+
+}
+
+//截取子串
+void test08() {
+    string s = "abcdefg";
+    string mysubstr = s.substr(1, 3);
+    cout << mysubstr << endl;
+}
+
+//插入
+void test09() {
+    string s = "abcdefghjfgkl";
+    s.insert(1, "11");//从1位置（1位置后面插）插入11
+    cout << s << endl;
+    s.erase(1, 2);  // 从1位置开始删除2个
+    cout << s << endl;
+}
+
+int main()
+{
+    //test01();
+    //test02();
+    //test03();
+    //test04();
+    //test05();
+    //test06();
+    //test07();
+    //test08();
+    test09();
+    
+    system("pause");
+    return 0;
+}
+```
+
+# 42 string替换 比较 子串插入和删除
+
+见41
+
+# 43 vector容器概念_动态增长原理
+
+![image-20220711091014367](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220711091014367.png)
+
+
+
+![image-20220711091019409](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220711091019409.png)
+
+
+
+# 44 vector容器初始化_常用赋值操作
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void printVector(vector<int>& v) {
+    for (vector<int>::iterator it = v.begin(); it != v.end(); it++) {
+        cout << *it << " ";
+    }
+    cout << endl;
+}
+
+//初始化
+void test01() {
+    vector<int> v1;//默认无参构造
+
+    
+    int arr[] = { 2,3,4,1,9 };
+    vector<int> v2(arr, arr + sizeof(arr)/sizeof(int));
+
+    vector<int> v3(v2.begin(), v2.end());
+
+    vector<int> v4(v3);
+
+    printVector(v2);
+    printVector(v3);
+    printVector(v4);
+}
+
+//赋值操作
+void test02() {
+    int arr[] = { 2,3,4,1,9 };
+    vector<int> v1(arr, arr + sizeof(arr) / sizeof(int));
+    //成员方法
+    vector<int> v2;
+    v2.assign(v1.begin(), v1.end());
+    //=
+    vector<int> v3 = v2;
+
+    int arr1[] = { 100,200,300,400,500 };
+    vector<int> v4(arr1, arr1 + sizeof(arr1) / sizeof(int));
+    v4.swap(v1);
+
+    printVector(v1);
+    printVector(v2);
+    printVector(v3);
+    printVector(v4);
+}
+
+void test03() {
+
+}
+
+int main()
+{
+    //test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
+
+swap交换原理：实际上是指针指向交换
+
+![image-20220711093911972](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220711093911972.png)
+
+# 45 vector存取 插入 删除 大小操作
+
+```cpp
+//vector存取数据
+void test04() {
+    int arr[] = { 2,3,4,1,9 };
+    vector<int> v1(arr, arr + sizeof(arr) / sizeof(int));
+
+    for (int i = 0; i < v1.size(); i++) {
+        cout << v1[i] << " ";
+    }
+    cout << endl;
+
+    for (int i = 0; i < v1.size(); i++) {
+        cout << v1.at(i) << " ";
+    }
+    cout << endl;
+
+    //区别：at抛异常  []不抛异常
+
+    //数据存取操作
+    cout << "front:" << v1.front() << endl;
+    cout << "back:" << v1.back() << endl;
+
+}
+
+//插入和删除
+void test05() {
+    //insert的位置是用迭代器标识的
+    vector<int> v;
+    v.push_back(10);
+    v.push_back(20);
+    printVector(v);
+
+    //头插法
+    v.insert(v.begin(), 30);
+    printVector(v);
+    //尾插法
+    v.insert(v.end(), 40);
+    printVector(v);
+    //中间插
+    v.insert(v.begin() + 2, 100);//vector支持随机访问  容器支持[]的一般都支持随机访问  迭代器可以直接+2 +3 -5
+    printVector(v);
+
+    //删除
+    v.erase(v.begin());
+    printVector(v);
+    v.erase(v.begin() + 1, v.end());
+    printVector(v);
+    v.clear();
+    cout << "size:" << v.size() << endl;
+}
+```
+
+
+
+# 46 巧用swap收缩空间
+
+```cpp
+//巧用swap缩减空间
+void test06() {
+    //vector添加元素 会自动增长
+    //删除元素 不会自动缩减
+    vector<int> v;
+    for (int i = 0; i < 100; i++) {
+        v.push_back(i);
+    }
+    cout << "size:" << v.size() << endl;
+    cout << "capacity:" << v.capacity() << endl;
+    v.resize(10);
+    cout << "size:" << v.size() << endl;
+    cout << "capacity:" << v.capacity() << endl;
+
+    //利用swap收缩空间
+    vector<int>(v).swap(v);//vector<int>(v) 通过v创建一个匿名对象 然后与v进行交换 匿名对象用完销毁
+    cout << "size:" << v.size() << endl;
+    cout << "capacity:" << v.capacity() << endl;
+}
+```
+
+# 47 reserve预留空间提高程序效率
+
+```cpp
+//reserve和resize区别
+void test07() {
+    //reserve 预留空间 resize 区别
+
+    int num = 0;
+    int* address = NULL;
+
+    vector<int> v;
+    v.reserve(10000);
+    for (int i = 0; i < 10000; i++) {
+        v.push_back(i);
+        if (address != &v[0]) {
+            address = &v[0];
+            num++;
+        }
+    }
+    cout << "num:" << num << endl;
+    //如果你知道数据大概要存储的个数，可以用reserve预留空间
+
+}
+```
+
+# 48 上次课程回顾
+
+略
+
+# 49 deque容器基本概念
+
+![image-20220711102527612](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220711102527612.png)
+
+![image-20220711104310479](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220711104310479.png)
+
+
+
+# 50 deque初始化 插入 删除 赋值 大小
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<deque>
+using namespace std;
+
+void printDeque(deque<int>& d) {
+    for (deque<int>::iterator it = d.begin(); it != d.end(); it++) {
+        cout << *it ;
+    }
+    cout << endl;
+}
+
+//初始化
+void test01() {
+    deque<int> d1;
+    deque<int> d2(10, 5);//10个5
+    deque<int> d3(d2.begin(), d2.end());
+    deque<int> d4(d3);
+    printDeque(d4);
+}
+
+//赋值及大小操作
+void test02() {
+    deque<int> d1;
+    d1.assign(10, 5);//10个5
+    deque<int> d2;
+    d2.assign(d1.begin(), d1.end());//迭代器指定区间赋值
+    deque<int> d3;
+    d3 = d2;//等号赋值
+
+    d1.swap(d2);
+    if (d1.empty()) {
+        cout << "d1 空" << endl;
+    }
+    else {
+        cout << "size:" << d1.size() << endl;
+    }
+
+    d1.resize(5);//后5个扔掉
+}
+
+//deque容器的插入和删除
+void test03() {
+    deque<int> d1;
+    d1.push_back(100);
+    d1.push_front(200);
+    d1.push_back(300);
+    d1.push_back(400);
+    d1.push_front(500);
+    //500 200 100 300 400 
+    printDeque(d1);
+
+    int val = d1.front();//拿到被删除的数据
+    d1.pop_front();
+    printDeque(d1);
+
+    val = d1.back();//拿到被删除的数据
+    d1.pop_back();
+    printDeque(d1);
+
+
+}
+
+int main()
+{
+    //test01();
+    //test02();
+    test03();
+    system("pause");
+    return 0;
+}
+```
+
+# 51 deque打分案例框架搭建
+
+见52
+
+# 52 deque打分案例函数实现
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<deque>
+#include<string>
+#include<algorithm>
+using namespace std;
+//评委打分案例（sort 算法排序）
+//创建5个选手（姓名：得分），10个评委对5个选手进行打分
+//得分规则：去除最高分，去除最低分，取出平均分
+//按得分对5名选手进行排名
+
+
+//选手类
+class Player
+{
+public:
+    Player(){}
+    Player(string name, int score):mName(name),mScore(score){}
+public:
+
+    string mName;
+    int mScore;
+protected:
+private:
+};
+
+//创建选手
+void Create_Player(vector<Player>& v) {
+    string nameSeed = "ABCDE";
+    for (int i = 0; i < 5; i++) {
+        Player p;
+        p.mName = "选手";
+        p.mName += nameSeed[i];
+        p.mScore = 0;
+
+        v.push_back(p);
+    }
+
+}
+
+void PrintScore(int val) {
+    cout << val << " ";
+}
+
+//打分
+void Set_score(vector<Player>& v) {
+    for (vector<Player>::iterator it = v.begin(); it != v.end(); it++) {
+        //当前学生进行打分
+        deque<int> dScore;
+        for (int i = 0; i < 10; i++) {
+            int score = rand() % 41 + 60;   //rand % (b-a+1) +a  : a~b一个随机整数 
+            dScore.push_back(score);
+        }
+
+        //对分数进行排序,默认从小到大
+        sort(dScore.begin(), dScore.end());
+        //for_each(dScore.begin(), dScore.end(), PrintScore);
+        //cout << endl;
+
+        //去除最高最低分
+        dScore.pop_back();
+        dScore.pop_front();
+
+        //求平均分
+        int totalScore = 0;
+        for (deque<int>::iterator dit = dScore.begin(); dit != dScore.end(); dit++) {
+            totalScore += (*dit);
+        }
+        int avgScorce = totalScore / dScore.size();
+
+        //保存分数
+        (*it).mScore = avgScorce;
+    }
+}
+
+//排序规则
+bool mycompare(Player& p1, Player& p2) {
+    return p1.mScore > p2.mScore;
+}
+
+//根据选手分数排名
+void Print_Rank(vector<Player>& v) {
+    //从大到小排名
+    sort(v.begin(), v.end(), mycompare);
+    for (vector<Player>::iterator it = v.begin(); it != v.end(); it++) {
+        cout << "姓名：" << (*it).mName << "得分：" << (*it).mScore << endl;
+    }
+}
+
+
+int main()
+{
+    //定义vector容器，保存选手信息
+    vector<Player> vPlist;
+    Create_Player(vPlist);
+    Set_score(vPlist);
+    Print_Rank(vPlist);
+
+
+    system("pause");
+    return 0;
+}
+```
+
+# 53
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

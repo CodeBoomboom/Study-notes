@@ -1,0 +1,3 @@
+﻿41 string容器.obj : error LNK2005: "void __cdecl test01(void)" (?test01@@YAXXZ) 已经在 38 STL hello world.obj 中定义
+41 string容器.obj : error LNK2005: main 已经在 38 STL hello world.obj 中定义
+G:\Git\GitProject\Study-notes\STL\STLDemo\x64\Debug\38 STL hello world.exe : fatal error LNK1169: 找到一个或多个多重定义的符号

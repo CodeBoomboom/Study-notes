@@ -1,0 +1,16 @@
+﻿  41 string容器.cpp
+G:\Git\GitProject\Study-notes\STL\STLDemo\38 STL hello world\41 string容器.cpp(82,26): warning C4305: “参数”: 从“int”到“const _Elem”截断
+          with
+          [
+              _Elem=char
+          ]
+G:\Git\GitProject\Study-notes\STL\STLDemo\38 STL hello world\41 string容器.cpp(82,22): warning C4309: “参数”: 截断常量值
+G:\Git\GitProject\Study-notes\STL\STLDemo\38 STL hello world\41 string容器.cpp(82,27): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+G:\Git\GitProject\Study-notes\STL\STLDemo\38 STL hello world\41 string容器.cpp(86,23): warning C4305: “参数”: 从“int”到“const _Elem”截断
+          with
+          [
+              _Elem=char
+          ]
+G:\Git\GitProject\Study-notes\STL\STLDemo\38 STL hello world\41 string容器.cpp(86,19): warning C4309: “参数”: 截断常量值
+G:\Git\GitProject\Study-notes\STL\STLDemo\38 STL hello world\41 string容器.cpp(86,24): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+  41 string容器.vcxproj -> G:\Git\GitProject\Study-notes\STL\STLDemo\x64\Debug\41 string容器.exe

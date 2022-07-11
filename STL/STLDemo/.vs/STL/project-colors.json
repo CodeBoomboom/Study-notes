@@ -1,0 +1,66 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "eca8c750-9344-4092-be30-de3277671ee9": {
+      "ProjectGuid": "eca8c750-9344-4092-be30-de3277671ee9",
+      "DisplayName": "08 类模板派生类模板",
+      "ColorIndex": 0
+    },
+    "983d73f3-043c-467d-84a2-dd9c107a5cf7": {
+      "ProjectGuid": "983d73f3-043c-467d-84a2-dd9c107a5cf7",
+      "DisplayName": "19 类型转换",
+      "ColorIndex": 1
+    },
+    "0103c594-f4f8-45f8-ba97-cefa9843ba89": {
+      "ProjectGuid": "0103c594-f4f8-45f8-ba97-cefa9843ba89",
+      "DisplayName": "23 异常基本语法",
+      "ColorIndex": 2
+    },
+    "29512b3e-6b8e-495b-b22a-3859b40e8e11": {
+      "ProjectGuid": "29512b3e-6b8e-495b-b22a-3859b40e8e11",
+      "DisplayName": "25 栈解旋",
+      "ColorIndex": 3
+    },
+    "56e36e75-dbea-47b0-88fe-8f27198a0bd6": {
+      "ProjectGuid": "56e36e75-dbea-47b0-88fe-8f27198a0bd6",
+      "DisplayName": "26 异常接口声明",
+      "ColorIndex": 4
+    },
+    "98ad3132-ea68-4b72-9f51-8584478a09e3": {
+      "ProjectGuid": "98ad3132-ea68-4b72-9f51-8584478a09e3",
+      "DisplayName": "27 异常类型",
+      "ColorIndex": 5
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "杂项文件",
+      "ColorIndex": -1
+    },
+    "2aaec557-57a3-4463-95cd-e2aff3b8a3ae": {
+      "ProjectGuid": "2aaec557-57a3-4463-95cd-e2aff3b8a3ae",
+      "DisplayName": "28 异常对象的生命周期",
+      "ColorIndex": 6
+    },
+    "2e512b9e-e13b-4c27-9198-f2e4350e6ab0": {
+      "ProjectGuid": "2e512b9e-e13b-4c27-9198-f2e4350e6ab0",
+      "DisplayName": "08 类模板派生普通类",
+      "ColorIndex": 7
+    },
+    "e29efdb9-083c-4e34-9066-1aa34da2e58e": {
+      "ProjectGuid": "e29efdb9-083c-4e34-9066-1aa34da2e58e",
+      "DisplayName": "17 MyArray",
+      "ColorIndex": 8
+    },
+    "e84a2a4e-12ee-47d6-8129-b45e5201a68f": {
+      "ProjectGuid": "e84a2a4e-12ee-47d6-8129-b45e5201a68f",
+      "DisplayName": "29 编写自己的异常类",
+      "ColorIndex": 9
+    },
+    "88be1655-edfc-4ef6-8aba-006b57382db1": {
+      "ProjectGuid": "88be1655-edfc-4ef6-8aba-006b57382db1",
+      "DisplayName": "30 继承在异常中的应用",
+      "ColorIndex": 10
+    }
+  },
+  "NextColorIndex": 11
+}
