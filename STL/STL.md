@@ -2200,103 +2200,581 @@ int main()
 }
 ```
 
-# 53
+# 53 stack容器
+
+![image-20220712084620822](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712084620822.png)
+
+
+
+![image-20220712084627580](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712084627580.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<stack>
+using namespace std;
+
+void test01() {
+    //初始化
+    stack<int> s1;
+    stack<int> s2(s1);
+
+    //stack操作
+    s1.push(10);
+    s1.push(20);
+    s1.push(30);
+    s1.push(100);
+    cout << "栈顶元素：" << s1.top() << endl;
+    s1.pop();
+    cout << "栈顶元素：" << s1.top() << endl;
+
+    //打印stack容器的数据
+    while (!s1.empty()) {
+        cout << s1.top() << " ";
+        s1.pop();
+    }
+    cout << endl;
+    cout << "size:" << s1.size() << endl;
+}
+
+class Person
+{
+public:
+    Person() {}
+    Person(string name, int scorce):mName(name),mScorce(scorce){}
+    void show() {
+        cout << "id" << mName << endl;
+        cout << "scorce" << mScorce << endl;
+    }
+
+public:
+    string mName;
+    int mScorce;
+};
+
+void CreatePerson(stack<Person>& persons) {
+    string s("ABCDE");
+    for (int i = 0; i < 5; i++) {
+        Person p;
+        p.mName = "选手";
+        p.mName += s[i];
+        p.mScorce = 0;
+
+        persons.push(p);
+    }
+}
+
+void ShowStack(stack<Person>& p) {
+    while(!p.empty()) {
+        p.top().show();
+        p.pop();
+    }
+}
+
+
+//作业：stack存放对象
+void test02() {
+    stack<Person> p;
+    CreatePerson(p);
+    ShowStack(p);
+}
+
+void ShowStack(stack<Person*>& p) {
+    while (!p.empty()) {
+        (*(p.top())).show();
+        p.pop();
+    }
+}
+//作业：stack存放对象指针
+void test03() {
+    Person* p1 = new Person("A", 10);
+    Person* p2 = new Person("B", 20);
+    Person* p3 = new Person("C", 30);
+
+    stack<Person*> p;
+    p.push(p1);
+    p.push(p2);
+    p.push(p3);
+    ShowStack(p);
+}
+
+int main()
+{
+    //test01();
+    //test02();
+    test03();
+    system("pause");
+    return 0;
+}
+```
+
+
+
+# 54 queue容器
+
+![image-20220712092722785](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712092722785.png)
+
+
+
+![image-20220712092733926](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712092733926.png)
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<queue>
+#include <stack>
+using namespace std;
+
+
+void test01() {
+    queue<int> q;
+
+    q.push(10);
+    q.push(20);
+    q.push(30);
+    q.push(40);
+
+    cout << "队尾：" << q.back() << endl;
+    cout << "大小：" << q.size() << endl;
+    //输出顺序 10 20 30 40
+    while (!q.empty()) {
+        cout << q.front() << " ";
+        q.pop();
+    }
+    cout << endl;
+
+}
+
+class Person
+{
+public:
+    Person() {}
+    Person(string name, int scorce) :mName(name), mScorce(scorce) {}
+    void show() {
+        cout << "id" << mName << "  ";
+        cout << "scorce" << mScorce << endl;
+    }
 
+public:
+    string mName;
+    int mScorce;
+};
 
+void CreatePerson(stack<Person>& persons) {
+    string s("ABCDE");
+    for (int i = 0; i < 5; i++) {
+        Person p;
+        p.mName = "选手";
+        p.mName += s[i];
+        p.mScorce = 0;
 
+        persons.push(p);
+    }
+}
 
+void ShowStack(stack<Person>& p) {
+    while (!p.empty()) {
+        p.top().show();
+        p.pop();
+    }
+}
 
+void ShowQueue(queue<Person*>& p) {
+    while (!p.empty()) {
+        (*(p.front())).show();
+        p.pop();
+    }
+}
 
+//作业：队列容器存放对象指针
+void test02() {
+    Person* p1 = new Person("A", 10);
+    Person* p2 = new Person("B", 20);
+    Person* p3 = new Person("C", 30);
 
+    queue<Person*> q;
+    q.push(p1);
+    q.push(p2);
+    q.push(p3);
+    ShowQueue(q);
+}
 
+//作业：队列容器存放stack容器
+void test03() {
+    stack<Person> s1;
+    stack<Person> s2;
+    stack<Person> s3;
+    CreatePerson(s1);
+    CreatePerson(s2);
+    Person p;
+    p.mName = "XDX";
+    p.mScorce = 100;
+    s3.push(p);
+    Person p1;
+    p1.mName = "XDX1";
+    p1.mScorce = 100;
+    s3.push(p1);
 
+    queue<stack<Person>> q;
+    q.push(s1);
+    q.push(s2);
+    q.push(s3);
 
+    while (!q.empty()) {
+        ShowStack(q.front());
+        q.pop();
+    }
 
+}
 
 
+int main()
+{
+    //test01();
+    //test02();
+    test03();
+    system("pause");
+    return 0;
+}
+```
 
+# 55 list基本概念
 
+![image-20220712095128208](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712095128208.png)
 
 
 
+# 56 list容器初始化_插入删除
 
+![image-20220712095143957](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712095143957.png)
 
 
 
+![image-20220712095204974](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712095204974.png)
 
 
 
+![image-20220712095212746](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712095212746.png)
 
 
 
+![image-20220712095219607](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712095219607.png)
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<list>
+using namespace std;
+
+void PrintList(list<int>& mlist) {
+
+    for (list<int>::iterator it = mlist.begin(); it != mlist.end(); it++) {
+        cout << *it << " ";
+    }
+    cout << endl;
+}
+void test01() {
+    //初始化
+    list<int> mlist1;
+    list<int> mlist2(10, 10);//有参构造
+    list<int> mlist3(mlist2);
+    list<int> mlist4(mlist2.begin(), mlist2.end());
+    PrintList(mlist4);
+    
+}
 
+//插入删除
+void test02() {
+    list<int> mlist;
 
+    mlist.push_back(100);
+    mlist.push_front(200);
+    mlist.insert(mlist.begin(), 300);
+    mlist.insert(mlist.end(), 400);
+    
+    list<int>::iterator it = mlist.begin();
+    it++;
+    it++;
+    mlist.insert(it, 500);
+
+    //mlist.pop_back();
+    //mlist.pop_front();
+    //mlist.erase(mlist.begin(), mlist.end());
+
+    mlist.remove(200);//删除匹配所有值
+    PrintList(mlist);
+}
+
+int main()
+{
+    //test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
+
+
+
+# 57 上午课程回顾
+
+略
+
+# 58 list容器 赋值 排序 反转
+
+![image-20220712104757029](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712104757029.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<list>
+using namespace std;
+
+void PrintList(list<int>& mlist) {
+
+    for (list<int>::iterator it = mlist.begin(); it != mlist.end(); it++) {
+        cout << *it << " ";
+    }
+    cout << endl;
+}
+void test01() {
+    //初始化
+    list<int> mlist1;
+    list<int> mlist2(10, 10);//有参构造
+    list<int> mlist3(mlist2);
+    list<int> mlist4(mlist2.begin(), mlist2.end());
+    PrintList(mlist4);
+    
+}
 
+//插入删除
+void test02() {
+    list<int> mlist;
 
+    mlist.push_back(100);
+    mlist.push_front(200);
+    mlist.insert(mlist.begin(), 300);
+    mlist.insert(mlist.end(), 400);
+    
+    list<int>::iterator it = mlist.begin();
+    it++;
+    it++;
+    mlist.insert(it, 500);
 
+    //mlist.pop_back();
+    //mlist.pop_front();
+    //mlist.erase(mlist.begin(), mlist.end());
 
+    mlist.remove(200);//删除匹配所有值
+    PrintList(mlist);
+}
 
 
+//list容器 赋值
+void test03() {
+    list<int> mlist;
+    mlist.assign(10, 10);
 
+    list<int> mlist2;
+    mlist2 = mlist;
 
+    mlist2.swap(mlist);
 
+}
 
+// 反转
+void test04() {
+    list<int> mlist;
+    for (int i = 0; i < 10; i++) {
+        mlist.push_back(i);
+    }
+    PrintList(mlist);
+    mlist.reverse();
+    PrintList(mlist);
+}
 
+bool mycompare(int v1, int v2) {
+    return v1 > v2;
+}
 
+//排序 
+void test05() {
+    list<int> mlist;
+    mlist.push_back(2);
+    mlist.push_back(1);
+    mlist.push_back(7);
+    mlist.push_back(5);
+    PrintList(mlist);
+    mlist.sort();//默认从小到大
+    PrintList(mlist);
 
+    mlist.sort(mycompare);
+    PrintList(mlist);
+}
+int main()
+{
+    //test01();
+    //test02();
+    //test03();
+    //test04();
+    test05();
+    system("pause");
+    return 0;
+}
+```
 
+# 59 list容器sort方法补充
 
+list不支持随机访问，所以算法的sort不适用于list。sort算法只支持可以随机访问的容器。
 
 
 
+# 60 二叉树基本概念
 
+![image-20220712105534919](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712105534919.png)
 
+![image-20220712105541104](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712105541104.png)
 
 
 
+![image-20220712105550301](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712105550301.png)
 
 
 
+![image-20220712110208013](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712110208013.png)
 
+平衡二叉树：任意节点的左子树深度与右子树深度相差不超过1。
 
+RB-tree(红黑树)为平衡二叉树的一种。
 
+# 61 set/multiset容器概念
 
+关联式容器
 
+![image-20220712105836578](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712105836578.png)
 
+![image-20220712105842111](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712105842111.png)
 
+只有insert
 
+![image-20220712111216588](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712111216588.png)
 
 
 
+# 62 set容器常用api
 
+![image-20220712111446350](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712111446350.png)
 
 
 
+![image-20220712111454244](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712111454244.png)
 
 
 
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<set>
+using namespace std;
 
+void PrintSet(set<int>& s) {
+    for (set<int>::iterator it = s.begin(); it != s.end(); it++) {
+        cout << *it << " ";
+    }
+    cout << endl;
+}
 
+//初始化
+void test01() {
+    set<int> s1;    //自动排序，默认从小到大
+    s1.insert(7);
+    s1.insert(2);
+    s1.insert(4);
+    s1.insert(5);
+    s1.insert(1);
+    PrintSet(s1);
+    
+    //赋值操作
+    set<int> s2;
+    s2 = s1;
+    s2.swap(s1);
 
+    if (!s1.empty()) cout << "size:"<< s1.size() << endl;
 
+    //删除
+    s1.erase(s1.begin());
+    s1.erase(7);
+    PrintSet(s1);
 
+}
 
+//set 查找 
+void test02() {
+    //实际的值(set键值一样)
+    set<int> s1; 
+    s1.insert(7);
+    s1.insert(2);
+    s1.insert(4);
+    s1.insert(5);
+    s1.insert(1);
 
+    set<int>::iterator ret = s1.find(4);//找到返回迭代器，否则返回end迭代器
+    if (ret == s1.end()) {
+        cout << "没找到" << endl;
+    }
+    else {
+        cout << "找到了：" << *ret << endl;
+    }
+    
+    ret = s1.lower_bound(2);//返回第一个大于等于2的元素的迭代器
+    if (ret == s1.end()) {
+        cout << "没找到" << endl;
+    }
+    else {
+        cout << "找到了：" << *ret << endl;
+    }
 
+    ret = s1.upper_bound(2);//返回第一个大于2的元素的迭代器
+    if (ret == s1.end()) {
+        cout << "没找到" << endl;
+    }
+    else {
+        cout << "找到了：" << *ret << endl;
+    }
 
+    pair<set<int>::iterator, set<int>::iterator> p = s1.equal_range(2);//返回lower_bound(2)和upper_bound(2)的值
+    if (p.first == s1.end()) {
+        cout << "没找到" << endl;
+    }
+    else {
+        cout << "找到了p.first：" << *p.first << endl;
+    }
 
+    if (p.second == s1.end()) {
+        cout << "没找到" << endl;
+    }
+    else {
+        cout << "找到了p.second：" << *p.second << endl;
+    }
+}
 
 
+int main()
+{
+    //test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
 
+# 63 pair对组
 
-
-
-
-
-
-
-
-
+![image-20220712113809670](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220712113809670.png)
 
 
 
