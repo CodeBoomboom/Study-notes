@@ -1,0 +1,4 @@
+﻿  68 multimap案例.cpp
+G:\Git\GitProject\Study-notes\STL\STLDemo\68 multimap案例\68 multimap案例.cpp(28,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+G:\Git\GitProject\Study-notes\STL\STLDemo\68 multimap案例\68 multimap案例.cpp(66,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  68 multimap案例.vcxproj -> G:\Git\GitProject\Study-notes\STL\STLDemo\x64\Debug\68 multimap案例.exe

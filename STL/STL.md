@@ -2778,117 +2778,889 @@ int main()
 
 
 
+# 64 set容器存储对象更改默认排序
+
+```cpp
+//仿函数：重载了函数调用符号的类
+class mycompare {
+public:
+    bool operator()(int v1, int v2) const {
+        return v1 > v2;
+    }
+};
 
 
+//初始化
+void test01() {
+    set<int> s1;    //自动排序，默认从小到大，如何实现从大到小？仿函数，见下面的s3
+    s1.insert(7);
+    s1.insert(2);
+    s1.insert(4);
+    s1.insert(5);
+    s1.insert(1);
+    PrintSet(s1);
+    
+    //赋值操作
+    set<int> s2;
+    s2 = s1;
+    s2.swap(s1);
 
+    if (!s1.empty()) cout << "size:"<< s1.size() << endl;
 
+    //删除
+    s1.erase(s1.begin());
+    s1.erase(7);
+    PrintSet(s1);
 
 
+    set<int, mycompare> s3;    //利用仿函数排序：从大到小
+    s3.insert(7);
+    s3.insert(2);
+    s3.insert(4);
+    s3.insert(5);
+    s3.insert(1);
+    for (set<int>::iterator it = s3.begin(); it != s3.end(); it++) {
+        cout << *it << " ";
+    }
+    cout << endl;
+}
+```
 
+```cpp
+class Person
+{
+public:
+    Person(int id, int age):id(id), age(age){}
+public:
+    int id;
+    int age;
 
+private:
 
+};
 
+class mycompare2 {
+public:
+    bool operator()(const Person& p1, const Person& p2)const{
+        return p1.age > p2.age;
+    }
+};
 
+void test03() {
+    //set<Person> sp; //set需要排序，当你放对象，set不知道怎么排序，所以需要指定
+    set<Person,mycompare2> sp;
+    Person p1(10, 20), p2(20, 30), p3(30, 40);
+
+    sp.insert(p1);
+    sp.insert(p2);
+    sp.insert(p3);
+
+    Person p4(10, 30);
+
+    for (set<Person, mycompare2>::iterator it = sp.begin(); it != sp.end(); it++) {
+        cout << (*it).age << " " << (*it).id << endl;
+    }
+
+    //查找
+    set<Person, mycompare2>::iterator ret = sp.find(p4);    //只会根据Person的age属性进行查找，不管到底有没有
+    if (ret == sp.end()) {
+        cout << "没找到" << endl;
+    }
+    else {
+        cout << "找到" << (*ret).id << " " << (*ret).age << endl;
+    }
 
+}
+```
 
 
 
+# 65 昨天课程回顾
 
+![image-20220713102022187](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713102022187.png)
 
+![image-20220713102029709](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713102029709.png)
 
 
 
+# 66 map_multimap基本概述
 
+![image-20220713103406879](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713103406879.png)
 
 
 
+ map容器的key不能重复，multimap的key可以重复
 
+![image-20220713103804183](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713103804183.png)
 
 
 
 
 
+# 67 map容器基本操作_四种插入方式比较
 
 
 
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<map>
+using namespace std;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void PirntMap(map<int, int>& m) {
+    for (map<int, int>::iterator it = m.begin(); it != m.end(); it++) {
+        //*it取出来是一个pair
+        cout << "key:" << it->first << "value:" << (*it).second << endl;
+    }
+}
+
+//map容器初始化
+void test01() {
+    map<int, int> mymap;//map容器模板参数，第一个参数key的类型，第二个参数value的类型
+
+    //插入数据  pair.first key值，pair.second value值
+    //第一种
+    pair<map<int, int>::iterator ,bool> ret = mymap.insert(pair<int, int>(10, 10));//insert返回一个pair，first是迭代器，second是bool类型（是否成功）
+    if (ret.second) {
+        cout << "第一次插入成功" << endl;
+    }
+    else {
+        cout << "第一次插入失败" << endl;
+    }
+    ret = mymap.insert(pair<int, int>(10, 20));//key一样value改变
+    if (ret.second) {
+        cout << "第二次插入成功" << endl;
+    }
+    else {
+        cout << "第二次插入失败" << endl;
+    }
+    //第二种
+    mymap.insert(make_pair(20, 20));
+    //第三种
+    mymap.insert(map<int, int>::value_type(30, 30));
+    //第四种
+    mymap[40] = 40;
+    mymap[10] = 20;//如果key不存在则创建pair插入，如果key存在，会修改对应的value值
+    mymap[50] = 50;
+
+    //打印：通过迭代器
+    //for (map<int, int>::iterator it = mymap.begin(); it != mymap.end(); it++) {
+    //    //*it取出来是一个pair
+    //    cout << "key:" << it->first << "value:" << (*it).second << endl;
+    //}
+    PirntMap(mymap);
+    //如果通过[]的方式去访问map中不存在的key，map会将这个访问的key插入到map中并给value一个默认值0
+    cout << mymap[60] << endl;
+    PirntMap(mymap);
+
+}
+
+int main()
+{
+    test01();
+    system("pause");
+    return 0;
+}
+```
+
+
+
+# 68 multimap案例框架搭建
+
+见69
+
+# 69 multimap案例实现
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+#include<vector>
+#include<map>
+#include<time.h>
+#include<stdlib.h>
+using namespace std;
+//multimap案例
+//公司今天招聘了五个员工，5名员工进入公司后，需要指派员工在哪个部门工作
+//人员信息有：姓名 年龄 电话 工资等组成
+//通过multimap进行信息的插入 保存 显示
+//分部门显示员工信息 显示全部员工信息
+
+#define SALE_DEPARTMENT             1       //销售部门
+#define DEVELOP_DEPARTMENT      2       //研发部门
+#define FINACIAL_DEPARTMENT      3      //财务部门
+#define ALL_DEPAERTMENT              4      //所有部门   
+
+class Worker {
+public:
+    string mName;
+    string mTele;
+    int mAge;
+    int mSalary;
+};
+void Create_Worker(vector<Worker>& vWorker) {
+    srand(time(NULL));
+    string seedName = "ABCDE";
+    for (int i = 0; i < 5; i++) {
+        Worker worker;
+        worker.mName = "员工";
+        worker.mName += seedName[i];
+
+        worker.mAge = rand() % 10 + 20;
+        worker.mTele = "010-88888888";
+        worker.mSalary = rand() % 10000 + 10000;
+
+        vWorker.push_back(worker);
+    }
+}
+
+void WorkerByGroup(vector<Worker>& vWorker, multimap<int, Worker>& workerGroup) {
+    //把员工随机分配到不同部门
+    for (vector<Worker>::iterator it = vWorker.begin(); it != vWorker.end(); it++) {
+        int departID = rand() % 3 + 1;
+        switch (departID)
+        {
+         case SALE_DEPARTMENT:
+             workerGroup.insert(make_pair(SALE_DEPARTMENT, *it));
+             break;
+         case DEVELOP_DEPARTMENT:
+             workerGroup.insert(make_pair(DEVELOP_DEPARTMENT, *it));
+             break;
+         case FINACIAL_DEPARTMENT:
+             workerGroup.insert(make_pair(FINACIAL_DEPARTMENT, *it));
+             break;
+         default:
+             break;
+        }
+    }
+}
+
+void ShowGroupWorkers(multimap<int, Worker>& workerGroup, int departid) {
+    multimap<int, Worker>::iterator it = workerGroup.find(departid);//第一次出现位置
+    int DepartCount = workerGroup.count(departid);//当前部门总人数
+    int num = 0;
+    cout << "部门：" << departid << endl;
+    for (multimap<int, Worker>::iterator pos = it; it != workerGroup.end() && num < DepartCount; pos++, num++) {
+        cout << "姓名：" << pos->second.mName << " " << "年龄" << pos->second.mAge << " " << "电话" << pos->second.mTele << " " << "工资" << pos->second.mSalary << endl;
+    }
+}
+
+void PrintWorkerByGroup(multimap<int, Worker>& workerGroup) {
+     //打印销售部员工
+    ShowGroupWorkers(workerGroup, SALE_DEPARTMENT);
+
+     //打印研发部员工
+    ShowGroupWorkers(workerGroup, DEVELOP_DEPARTMENT);
+     //打印财务部员工
+    ShowGroupWorkers(workerGroup, FINACIAL_DEPARTMENT);
+}
+
+
+void test01() {
+    //存放新员工信息
+    vector<Worker> vWorker;
+    //multimap保存分组信息
+    multimap<int, Worker> workerGroup;
+
+    //创建员工
+    Create_Worker(vWorker);
+    //员工分组
+    WorkerByGroup(vWorker, workerGroup);
+    //打印每一部门的员工信息
+    PrintWorkerByGroup(workerGroup);
+}
+
+int main()
+{
+    test01();
+    system("pause");
+    return 0;
+}
+```
+
+# 70 map补充
+
+```cpp
+struct mycompare {
+    bool operator()(MyKey k1, MyKey k2) const{
+        return k1.mIndex > k2.mIndex;
+    }
+};
+
+void test02() {
+    map<MyKey, int, mycompare> mymap;//自动排序，自定义数据类型，咋排？
+
+    mymap.insert(make_pair(MyKey(1, 2), 10));
+    mymap.insert(make_pair(MyKey(4, 5), 20));
+
+    for (map<MyKey, int, mycompare>::iterator it = mymap.begin(); it != mymap.end(); it++) {
+        cout << it->first.mIndex << ":" << it->first.mID << " = " << it->second << endl;
+    }
+    
+
+}
+
+void test03() {
+    map<int, int> mymap;
+    mymap.insert(pair<int, int>(1, 4));
+    mymap.insert(pair<int, int>(2, 5));
+    mymap.insert(pair<int, int>(3, 6));
+
+    pair<map<int, int>::iterator, map<int, int>::iterator> ret = mymap.equal_range(2);
+    if (ret.first->second) {
+        cout << "找到了" << endl;
+    }
+    else {
+        cout << "没找到" << endl;
+    }
+}
+```
+
+# 71 容器元素深拷贝和浅拷贝问题
+
+如果类里面有指针，这个类作为容器内容拷贝时，如果不重载拷贝构造和赋值为深拷贝，就会出现浅拷贝问题，导致程序运行错误。
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Person
+{
+public:
+    Person(const char* name, int age) {
+        this->pName = new char[strlen(name) + 1];
+        strcpy(this->pName, name);
+        this->mAge = age;
+    }
+    Person(const Person& p) {
+        this->pName = new char[strlen(p.pName) + 1];
+        strcpy(this->pName, p.pName);
+        this->mAge = p.mAge;
+    }
+    Person& operator=(const Person& p) {
+        if (this->pName != NULL) {
+            delete[] this->pName;
+        }
+        this->pName = new char[strlen(p.pName) + 1];
+        strcpy(this->pName, p.pName);
+        this->mAge = p.mAge;
+        return *this;
+    }
+
+    ~Person() {
+        if (this->pName != NULL) {
+            delete[] this->pName;
+        }
+    }
+
+private:
+    int mAge;
+    char* pName;//指针 容易出现浅拷贝问题
+};
+
+
+void test01() {
+    Person p("aaa", 20);
+    vector<Person> vPerson;
+    //vPerson.push_back(p);       //出现浅拷贝问题，test01()结束时p析构，但是p push到vector中时是通过浅拷贝进行的（两个指针就指向一块内存空间）也会进行析构，两次析构就会出异常，，所以要增加拷贝构造
+    vPerson.push_back(p);
+}
+
+int main()
+{
+    test01();
+    system("pause");
+    return 0;
+}
+```
+
+![image-20220713153316958](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713153316958.png)
+
+# 72 容器共性和使用场景
+
+![image-20220713153316958](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713153316958.png)
+
+![image-20220713153437004](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713153437004.png)
+
+
+
+
+
+# 73 函数对象基本概念
+
+![image-20220713155956668](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713155956668.png)
+
+
+
+![image-20220713160006708](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713160006708.png)
+
+真正在开发中，避免使用全局变量, 全局变量是公有资源，多个模块都可能使用到，用全局变量要加锁解锁，非常麻烦
+
+而函数对象可以有效避免使用全局变量
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+struct MyPrint {
+    MyPrint() {
+        num = 0;
+    }
+    void operator()(int val) {
+        cout << val << endl;
+        num++;
+    }
+public:
+    int num;
+};
+void test01() {
+    MyPrint print;
+    print(10);
+
+    //函数可以像普通函数那样调用
+    //函数可以像普通函数那样接收参数
+    //函数对象超出了函数的概念，函数对象可以保存函数调用的状态
+}
+
+int num1 = 0;//真正在开发中，避免使用全局变量
+void MyPrint02(int val) {
+    cout << val << endl;
+    num1++;
+}
+
+void test02() {
+
+    vector<int> v;
+    v.push_back(10);
+    v.push_back(20);
+    v.push_back(30);
+    v.push_back(40);
+
+    //计算函数调用次数
+    MyPrint02(10);
+    MyPrint02(20);
+    cout << num1 << endl;
+
+    MyPrint print;
+    print(10);
+    print(20);
+    cout << print.num << endl;
+
+    MyPrint print1;
+    MyPrint print2 = for_each(v.begin(), v.end(), print1);//把print1拷贝一份给print2，用print2完成打印操作
+    cout << "print调用次数：" << print1.num << endl;
+    cout << "print调用次数：" << print2.num << endl;
+}
+
+int main()
+{
+    //test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
+
+# 74 上午课程回顾
+
+略
+
+# 75 内建函数对象
+
+![image-20220713170754079](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713170754079.png)
+
+![image-20220713170802962](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713170802962.png)
+
+![image-20220713170808391](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713170808391.png)
+
+![image-20220713170815977](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713170815977.png)
+
+![image-20220713170823486](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713170823486.png)
+
+
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<functional>
+using namespace std;
+
+
+void test01() {
+    plus<int> myplus;
+    int ret = myplus(10, 20);
+    cout << ret << endl;
+}
+
+int main()
+{
+    test01();
+    system("pause");
+    return 0;
+}
+```
+
+
+
+# 76 bind1st_bind2nd绑定适配器
+
+![image-20220713180217282](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713180217282.png)
+
+![image-20220713180222585](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220713180222585.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<functional>
+using namespace std;
+
+struct MyPrint {
+    void operator()(int val)const {
+        cout << val + 100<< " "<<endl; //如果希望将值 + 100后输出
+    }
+};
+
+//如果需要一堆增加值后的输出，按照下边的写法需要一堆函数对象，写起来就很麻烦了
+//struct MyPrint02 {
+//    void operator()(int val)const {
+//        cout << val + 200 << " "; //如果希望将值 + 200后输出
+//    }
+//};
+
+//考虑将增加值作为参数传入，然而for_each需要的是一元函数对象，此时就需要绑定适配器
+//需要继承父类: public binary_function<int, int, void>  参数类型，返回值
+struct MyPrint03 : public binary_function<int, int, void>{ 
+    void operator()(int val, int plus)const {
+        cout<<"val："<<val<<"plus："<< plus <<endl;
+        cout << val + plus << " "; //如果希望将值 + plus后输出
+    }
+};
+
+//函数对象适配器 bind1st bin2nd 绑定适配器
+void test01() {
+    vector<int> v;
+    for (int i = 0; i < 10; i++) {
+        v.push_back(i);
+    }
+    for_each(v.begin(), v.end(), MyPrint());
+    int addNum = 200;
+    for_each(v.begin(), v.end(), bind2nd(MyPrint03(),addNum));
+
+    //绑定适配器：将一个二元函数对象转变成一元函数对象
+
+    //bind1st，bind2nd区别？
+    //bind1st将传进来的参数绑定为函数对象的第一个参数，bind2nd绑定为第二个参数
+    //两个都是将二元函数对象绑定为一元函数对象
+}
+
+
+//需要继承父类: public binary_function<int, int, void>  参数类型，返回值
+struct MyCompare : public  binary_function<int, int ,bool>{
+    bool operator()(int v1, int v2) const {
+        return v1 > v2;
+    }
+};
+struct MyPrint04 {
+    void operator()(int val)const {
+        cout << val<< " " ; //如果希望将值 + 100后输出
+    }
+};
+
+struct MyGreater5 : public unary_function<int, bool>{
+    bool operator()(int v) const {
+        return v > 5;
+    }
+};
+
+//函数对象适配器 not1 not2 取反适配器
+void test02() {
+    vector<int> v;
+    for (int i = 0; i < 10; i++) {
+        //v.push_back(rand()%100 );//rand % (b - a + 1) + a  : a~b一个随机整数
+        v.push_back(i);
+    }
+    for_each(v.begin(), v.end(), MyPrint04()); cout << endl;
+    sort(v.begin(), v.end(), not2(MyCompare()));//取反 从大到小改为从小到大
+    for_each(v.begin(), v.end(), MyPrint04()); cout << endl;
+
+    //not1和not2的区别
+    //如果对二元谓词取反：not2
+    //如果对一元谓词取反：not1
+
+    //一元
+    vector<int>::iterator it = find_if(v.begin(), v.end(), not1(MyGreater5()));
+    if (it == v.end()) {
+        cout << "没有找到" << endl;
+    }
+    else {
+        cout << "找到了：" << *it << endl;
+    }
+
+
+}
+
+int main(){
+    //test01();
+    test02();
+    system("pause");
+    return 0;
+}
+```
+
+# 77 not1_not2取反适配器
+
+见76
+
+# 78 ptr_fun函数对象适配器mem_fun mem_fun_ref成员函数适配器
+
+
+
+```cpp
+//仿函数适配器： ptr_fun
+void test03() {
+    vector<int> v;
+    for (int i = 0; i < 10; i++) {
+        //v.push_back(rand()%100 );//rand % (b - a + 1) + a  : a~b一个随机整数
+        v.push_back(i);
+    }
+
+    //普通函数无法通过bind1st等适配器进行绑定等操作
+    //这时候就需要把普通函数适配成（转成）函数对象
+    for_each(v.begin(), v.end(), bind2nd(ptr_fun(Myprint05),10)); 
+
+}
+
+class Person
+{
+public:
+    Person(int age, int id) :age(age), id(id){}
+    ~Person(){}
+    void show() {
+        cout << "age：" << age << "id：" << id << endl;
+    }
+public:
+    int age;
+    int id;
+};
+
+
+//成员函数适配器：mem_fun  men_fun_ref
+void test04() {
+    //如果容器中存放的是对象或对象指针，我们for_each算法打印的时候调用类自己提供的打印函数
+    vector<Person> v;
+    Person p1(10, 20), p2(30, 40), p3(50, 60);
+    v.push_back(p1);
+    v.push_back(p2);
+    v.push_back(p3);
+
+    //格式 &类名::函数名
+    for_each(v.begin(), v.end(), mem_fun_ref(&Person::show)); 
+
+    vector<Person*> v1;
+    v1.push_back(&p1);
+    v1.push_back(&p2);
+    v1.push_back(&p3);
+    for_each(v1.begin(), v1.end(), mem_fun(&Person::show));
+
+    //对象用mem_fun_ref 对象指针用mem_fun
+}
+```
+
+
+
+# 79 查找算法
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+//find(iterator beg, iterator end, value)  寻找容器中value值的元素，返回其迭代器
+//基本数据类型
+void test01() {
+    vector<int> v1;
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+
+    vector<int>::iterator ret = find(v1.begin(), v1.end(), 5);
+    if (ret != v1.end()) {
+        cout << "找到了：" << *ret<<endl;
+    }
+    else {
+        cout << "没找到" << endl;
+    }
+}
+//对象  需要在对象类中重载一个bool类型==
+class Person {
+public:
+    Person(int age, int id) :age(age), id(id) {}
+    bool operator==(const Person& p) const {
+        return p.id == this->id && p.age == this->age;
+    }
+    ~Person() {}
+    void show() {
+        cout << "age：" << age << "id：" << id << endl;
+    }
+public:
+    int age;
+    int id;
+};
+void test02() {
+    vector<Person> v1;
+    Person p1(10, 20), p2(20, 30);
+    v1.push_back(p1);
+    v1.push_back(p2);
+
+    vector<Person>::iterator  ret = find(v1.begin(), v1.end(), p1);
+    if (ret != v1.end()) {
+        cout << "找到了"<< endl;
+    }
+    else {
+        cout << "没找到" << endl;
+    }
+}
+
+//binary_search(iterator beg, iterator end, value);  二分查找，在无序序列中不可用，查找成功返回true 失败false
+void test03() {
+    vector<int> v1;
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+
+    bool ret = binary_search(v1.begin(), v1.end(), 5);
+    if (ret) {
+        cout << "找到了" << endl;
+    }
+    else {
+        cout << "没找到" << endl;
+    }
+}
+
+//adjacent_find(iterator beg, iterator end, _callback);  查找相邻重复元素 返回相邻元素的第一个位置的迭代器
+void test04() {
+    vector<int> v1;
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+    v1.push_back(9);
+
+    vector<int>::iterator ret = adjacent_find(v1.begin(), v1.end());
+    if (ret != v1.end()) {
+        cout << "找到了相邻重复元素：" << *ret << endl;
+    }
+    else {
+        cout << "没找到相邻重复元素" << endl;
+    }
+}
+
+//find_if(iterator beg, iterator end, _callback);    find_if会根据我们的条件（函数），返回第一个满足条件的元素的迭代器 _callback回调函数或谓词 
+bool MySearch(int val){
+    return val > 5;
+}
+void test05() {
+    vector<int> v1;
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+
+    vector<int>::iterator ret = find_if(v1.begin(), v1.end(), MySearch);
+    if (ret != v1.end()) {
+        cout << "找到了：" <<*ret << endl;
+    }
+    else {
+        cout << "没找到" << endl;
+    }
+}
+
+//count 统计元素出现次数 count_if   count_if会根据我们的条件（函数），返回满足条件的元素的个数
+bool MySearch2(int val) {
+    return val > 5;
+}
+void test06() {
+    vector<int> v1;
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+    v1.push_back(9);
+
+    int num = count(v1.begin(), v1.end(), 9);
+    cout << "9出现的次数：" << num << endl;
+
+    int num1 = count_if(v1.begin(), v1.end(), MySearch2);
+    cout << "大于5的个数：" << num1 << endl;
+
+}
+
+int main()
+{
+    //test01();
+    //test02();
+    //test03();
+    //test04();
+    //test05();
+    test06();
+    system("pause");
+    return 0;
+}
+```
+
+
+
+# 80 常用的遍历
+
+transform
+
+for_each
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+//transform  将一个容器中的元素搬运到另一个容器中
+struct MyPlus {
+    int operator()(int val) {
+        return val+100;
+    }
+};
+struct MyPrint{
+    void operator()(int val) {
+        cout << val << " ";
+    }
+    
+};
+void test01() {
+    vector<int> v1;
+    vector<int> v2;
+
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+
+    v2.resize(v1.size());//开辟空间
+    transform(v1.begin(), v1.end(), v2.begin(), MyPlus());//把v1中的元素逐个放入MyPlus仿函数中，仿函数返回的值逐个放到v2中
+    for_each(v2.begin(), v2.end(), MyPrint());
+
+}
+
+int main(){
+    test01();
+
+    return 0;
+}
+```
 
 
 
