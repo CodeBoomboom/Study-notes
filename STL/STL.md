@@ -3666,29 +3666,348 @@ int main(){
 
 
 
+# 01 常用的排序算法
+
+![image-20220716142105693](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716142105693.png)
+
+![image-20220716142110586](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716142110586.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<list>
+#include<time.h>
+#include<algorithm>
+using namespace std;
+
+struct MyPrint01 {
+    void operator()(int  val) {
+        cout <<val<< " ";
+    }
+};
+struct MyCompare01 {
+    bool operator()(int v1, int v2) {
+        return v1 > v2;
+    }
+};
+
+//merge(iterator beg1, iterator end1, iterator beg2, iterator end2， iterator dest) 容器元素合并（有序），并存储到另一容器中
+void test01() {
+    vector<int> v1;
+    vector<int> v2;
+    list<int> l3;
+
+    srand((unsigned int)time(NULL));
+
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(rand() % 10);
+    }
+
+    for (int i = 0; i < 10; i++) {
+        //v2 .push_back(rand() % 10);
+        l3.push_back(rand() % 10);
+    }
+
+    sort(v1.begin(), v1.end(), MyCompare01());
+    //sort(v2.begin(), v2.end(), MyCompare01());
+    l3.sort(MyCompare01());
+
+    //_OutIt merge(_InIt1 _First1, _InIt1 _Last1, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest)
+
+    vector<int> v3;
+    //v3.resize(v1.size() + v2.size());
+    v3.resize(v1.size() + l3.size());
+
+
+    //默认从小到大
+    //merge(v1.begin(), v1.end(), v2.begin(), v2.end(), v3.begin(), MyCompare01());//v1 v2 必须为有序！
+    merge(v1.begin(), v1.end(), l3.begin(), l3.end(), v3.begin(), MyCompare01());
+    for_each(v3.begin(), v3.end(), MyPrint01());
+    cout << endl;
+}
+
+//sort(iterator beg,iterator end, _callback)  排序  
+//容器必须支持随机访问(如list就不行)
+void test02() {
+    vector<int> v1;
+    vector<int> v2;
+    //list<int> l3;//list不支持随机访问，所以不行
+
+    srand((unsigned int)time(NULL));
+
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(rand() % 10);
+    }
+
+    for (int i = 0; i < 10; i++) {
+        v2.push_back(rand() % 10);
+        //l3.push_back(rand() % 10);
+    }
+
+    sort(v1.begin(), v1.end(), MyCompare01());
+    sort(v2.begin(), v2.end(), MyCompare01());
+    //sort(l3 .begin(), l3.end(), MyCompare01());
+
+}
+
+
+//random_shuffle(iterator beg, iterator end)  洗牌打乱
+//容器必须支持随机访问
+void test03() {
+    vector<int> v;
+    for (int i = 0; i < 10; i++) {
+        v.push_back(i);
+    }
+
+    for_each(v.begin(), v.end(), MyPrint01());
+    cout << endl;
+    random_shuffle(v.begin(), v.end());
+    for_each(v.begin(), v.end(), MyPrint01());
+    cout << endl;
+
+}
+
+
+//reverse(iterator beg, iterator end)  翻转
+void test04() {
+    //vector<int> v;
+    list<int> l;
+    for (int i = 0; i < 10; i++) {
+        //v.push_back(i);
+        l.push_back(i);
+    }
+
+    //for_each(v.begin(), v.end(), MyPrint01());
+    //cout << endl;
+    //reverse(v.begin(), v.end());
+    //for_each(v.begin(), v.end(), MyPrint01());
+    //cout << endl;
+
+    for_each(l.begin(), l.end(), MyPrint01());
+    cout << endl;
+    reverse(l.begin(), l.end());
+    for_each(l.begin(), l.end(), MyPrint01());
+    cout << endl;
+
+}
+int main(){
+    //test01();
+    //test02();
+    //test03();
+    test04();
+    return 0;
+}
+```
+
+
+
+# 02 常用的拷贝和替换算法
+
+![image-20220716213337637](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716213337637.png)
+
+![image-20220716213344511](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716213344511.png)
+
+![image-20220716213351055](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716213351055.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<time.h>
+#include<algorithm>
+using namespace std;
+
+struct MyPrint01 {
+    void operator()(int  val) {
+        cout << val << " ";
+    }
+};
+struct MyCompare01 {
+    bool operator()(int v1, int v2) {
+        return v1 > v2;
+    }
+};
+
+//copy(iterator beg, iterator end, iterator dest) 将容器内指定范围的元素拷贝到另一容器中
+//swap(container c1, container c2) 交换两个容器中元素的值
+void test01() {
+    vector<int> v1;
+
+    
+    srand((unsigned int)time(NULL));
+
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(rand() % 10);
+    }
+
+    vector<int> v2;
+    v2.resize(v1.size());
+
+    copy(v1.begin(), v1.end(), v2.begin());
+
+    cout << "v1：" << " ";
+    for_each(v1.begin(), v1.end(), MyPrint01());
+    cout << endl;
+    cout << "v2：" << " ";
+    for_each(v2.begin(), v2.end(), MyPrint01());
+    cout << endl;
+
+    //swap
+    vector<int> v3;
+    for (int i = 0; i < 10; i++) {
+        v3.push_back(rand() % 10);
+    }
+
+    cout << "交换前：" << endl;
+    cout << endl;
+    cout << "v2：" << " ";
+    for_each(v2.begin(), v2.end(), MyPrint01());
+    cout << endl;
+    cout << "v3：" << " ";
+    for_each(v3.begin(), v3.end(), MyPrint01());
+    cout << endl;
+
+    swap(v2, v3);
+
+    cout << "交换后：" << " ";
+    cout << endl;
+    cout << "v2：" << " ";
+    for_each(v2.begin(), v2.end(), MyPrint01());
+    cout << endl;
+    cout << "v3：" << " ";
+    for_each(v3.begin(), v3.end(), MyPrint01());
+    cout << endl;
+}
+
+
+struct MyCompare02{
+    bool operator()(int val) {
+        return val > 5;
+    }
+};
+
+//replace(iterator beg, iterator end, oldvalue, new value)将容器内的oldvalue替换为newvalue
+//replace_if((iterator beg, iterator end, _callback, new value);
+void test02() {
+    vector<int> v1;
+
+    srand((unsigned int)time(NULL));
+
+    for (int i = 0; i < 10; i++) {
+        v1.push_back(rand() % 10);
+    }
+    for_each(v1.begin(), v1.end(), MyPrint01()); cout << endl;
+    replace(v1.begin(), v1.end(), 5, 100);
+    for_each(v1.begin(), v1.end(), MyPrint01()); cout << endl;
+
+    replace_if(v1.begin(), v1.end(), MyCompare02(), 200);
+
+    for_each(v1.begin(), v1.end(), MyPrint01());
+
+}
 
 
 
 
+int main(){
+    //test01();
+    test02();
+    return 0;
+}
+```
 
 
 
+# 03 常用的算数生成算法和常用的集合算法
+
+![image-20220716213404187](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716213404187.png)
+
+![image-20220716213409874](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716213409874.png)
+
+![image-20220716220301582](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220716220301582.png)
 
 
 
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<numeric>
+using namespace std;
+
+struct MyPrint01 {
+    void operator()(int  val) {
+        cout << val << " ";
+    }
+};
+
+//accumulate(iterator beg , iterator end) 计算容器元素累计总和
+//fill(iterator beg, iterator end)  向容器中添加元素 填充元素
+void test01() {
+    vector<int> v1;
+    v1.push_back(1);
+    v1.push_back(2);
+    v1.push_back(3);
+    v1.push_back(9);
+
+    int ret = accumulate(v1.begin(), v1.end(), 10);//最后一个参数是+10的意思
+
+    cout <<"ret: " << ret << endl;//15+10 = 25
+
+    vector<int> v2;
+    v2.resize(10);
+    fill(v2.begin(), v2.end(), 10);
+    for_each(v2.begin(), v2.end(), MyPrint01());
+    cout << endl;
+}
+
+// set_intersection(_InIt1 _First1, _InIt1 _Last1, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest) 两个容器的交集
+//set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), v4.begin()) 求两个容器并集
+// set_difference(v1.begin(), v1.end(), v2.begin(), v2.end(), v5.begin()) 求两个容器差集
+void test02() {
+    vector<int> v1;
+    vector<int> v2;
+    for(int i = 0; i < 10; i++) {
+        v1.push_back(i);
+    }
+    for (int i = 5; i < 15; i++) {
+        v2.push_back(i);
+    }
+    vector<int> v3;
+    v3.resize(min(v1.size(), v2.size()));
+    vector<int>::iterator it = set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), v3.begin());//返回指向交集最后一个元素的下一个位置的迭代器
+    for_each(v3.begin(), it, MyPrint01());
+    cout << endl;
+    cout << "it:" << *it << endl;
+
+    //并集
+    vector<int> v4;
+    v4.resize(v1.size()+v2.size());
+    it = set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), v4.begin());
+    for_each(v4.begin(), it, MyPrint01());
+    cout << endl;
+    cout << "it:" << *it << endl;
 
 
+    //差集
+    vector<int> v5;
+    v5.resize(v1.size() + v2.size());
+    it = set_difference(v1.begin(), v1.end(), v2.begin(), v2.end(), v5.begin());
+    for_each(v5.begin(), it, MyPrint01());
+    cout << endl;
+    cout << "it:" << *it << endl;
+
+}
 
 
-
-
-
-
-
-
-
-
-
+int main(){
+    //test01();
+    test02();
+    return 0;
+}
+```
 
 
 

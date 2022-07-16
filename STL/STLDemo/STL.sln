@@ -81,6 +81,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "79 常用的查找算法", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "80 常用的遍历算法", "80 常用的遍历算法\80 常用的遍历算法.vcxproj", "{2A0B3FA4-41CC-442F-BD21-557C9BFFD90F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "81_01 常用的排序算法", "01 常用的排序算法\01 常用的排序算法.vcxproj", "{CB422415-210D-4D9E-920F-547C7A328A05}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "82_02 常用的拷贝和替换算法", "82_02 常用的拷贝和替换算法\82_02 常用的拷贝和替换算法.vcxproj", "{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "83_03 常用的算数生成算法和常用的集合算法", "83_03 常用的算数生成算法和常用的集合算法\83_03 常用的算数生成算法和常用的集合算法.vcxproj", "{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -401,6 +407,30 @@ Global
 		{2A0B3FA4-41CC-442F-BD21-557C9BFFD90F}.Release|x64.Build.0 = Release|x64
 		{2A0B3FA4-41CC-442F-BD21-557C9BFFD90F}.Release|x86.ActiveCfg = Release|Win32
 		{2A0B3FA4-41CC-442F-BD21-557C9BFFD90F}.Release|x86.Build.0 = Release|Win32
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Debug|x64.ActiveCfg = Debug|x64
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Debug|x64.Build.0 = Debug|x64
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Debug|x86.ActiveCfg = Debug|Win32
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Debug|x86.Build.0 = Debug|Win32
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Release|x64.ActiveCfg = Release|x64
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Release|x64.Build.0 = Release|x64
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Release|x86.ActiveCfg = Release|Win32
+		{CB422415-210D-4D9E-920F-547C7A328A05}.Release|x86.Build.0 = Release|Win32
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Debug|x64.ActiveCfg = Debug|x64
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Debug|x64.Build.0 = Debug|x64
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Debug|x86.ActiveCfg = Debug|Win32
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Debug|x86.Build.0 = Debug|Win32
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Release|x64.ActiveCfg = Release|x64
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Release|x64.Build.0 = Release|x64
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Release|x86.ActiveCfg = Release|Win32
+		{F70B4A94-4CAC-4EFD-863D-AE51DC0121A2}.Release|x86.Build.0 = Release|Win32
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Debug|x64.ActiveCfg = Debug|x64
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Debug|x64.Build.0 = Debug|x64
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Debug|x86.ActiveCfg = Debug|Win32
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Debug|x86.Build.0 = Debug|Win32
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Release|x64.ActiveCfg = Release|x64
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Release|x64.Build.0 = Release|x64
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Release|x86.ActiveCfg = Release|Win32
+		{D28D2B4C-0BAE-463B-8581-00CBC63AAEB3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
