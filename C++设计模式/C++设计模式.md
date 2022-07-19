@@ -66,13 +66,11 @@
 
 修改一下，将setOperatorNumber方法写成纯虚函数
 
-![img](file:///C:/Users/Administrator/AppData/Local/Packages/oice_16_974fa576_32c1d314_11ba/AC/Temp/msohtmlclip1/01/clip_image002.jpg)
+![image-20220719145940591](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719145940591.png)
 
 这时候，运行测试一波
 
-![img](file:///C:/Users/Administrator/AppData/Local/Packages/oice_16_974fa576_32c1d314_11ba/AC/Temp/msohtmlclip1/01/clip_image004.jpg)
-
- 
+![image-20220719145949619](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719145949619.png)
 
 用这个代码，扩展新功能就很方便，不用修改原有代码。
 
@@ -463,59 +461,441 @@ int main()
 
 
 
+# 20 工厂方法模式
+
+简单工厂中，工厂不符合开闭原则。这里，再将工厂抽象出来，让工厂也符合开闭原则。
+
+![image-20220719160511307](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719160511307.png)
+
+![image-20220719160526432](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719160526432.png)
+
+![image-20220719160537043](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719160537043.png)
 
 
 
+![image-20220719160552001](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719160552001.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+//简单工厂模式
+
+class AbstractFruit {
+
+public:
+    virtual void ShowName() = 0;
+};
+
+//苹果
+class  Apple :public AbstractFruit
+{
+public:
+    virtual void ShowName() {
+        cout << "我是苹果" << endl;
+    }
+protected:
+private:
+};
+
+//香蕉
+class  Banana :public AbstractFruit
+{
+public:
+    virtual void ShowName() {
+        cout << "我是香蕉" << endl;
+    }
+protected:
+private:
+};
+
+//鸭梨
+class  Pear :public AbstractFruit
+{
+public:
+    virtual void ShowName() {
+        cout << "我是鸭梨" << endl;
+    }
+protected:
+private:
+};
+
+
+//水果工厂
+class FriutFactorty {
+public:
+    virtual AbstractFruit* CreateFruit() = 0;
+};
+
+//苹果工厂
+class AppleFactory : public FriutFactorty
+{
+public:
+    virtual AbstractFruit* CreateFruit() {
+        return new Apple;
+    }
+};
+
+//香蕉工厂
+class BananaFactory : public FriutFactorty
+{
+public:
+    virtual AbstractFruit* CreateFruit() {
+        return new Banana;
+    }
+};
+
+//鸭梨工厂
+class PearFactory : public FriutFactorty
+{
+public:
+    virtual AbstractFruit* CreateFruit() {
+        return new Pear;
+    }
+};
+
+void test01() {
+    FriutFactorty* factorty = new AppleFactory;
+    AbstractFruit* fruit = factorty->CreateFruit();
+    fruit->ShowName();
+    delete fruit;
+    delete factorty;
+
+    factorty = new BananaFactory;
+    fruit = factorty->CreateFruit();
+    fruit->ShowName();
+    delete fruit;
+    delete factorty;
+
+    factorty = new PearFactory;
+    fruit = factorty->CreateFruit();
+    fruit->ShowName();
+    delete fruit;
+    delete factorty;
+}
+
+int main()
+{
+    test01();
+
+    return 0;
+}
+```
 
 
 
+# 21 简单工厂和工厂方法模式适用场景
+
+工厂方法模式：
+
+![image-20220719162208920](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719162208920.png)
+
+简单工厂：
+
+![image-20220719162213409](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719162213409.png)
 
 
 
+# 22 抽象工厂模式
+
+![image-20220719162611368](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719162611368.png)
+
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//抽象苹果
+class AbstractApple
+{
+public:
+    virtual void showName() = 0;
+};
+//中国苹果
+class ChinaApple : public AbstractApple {
+public:
+    virtual void showName() {
+        cout << "中国苹果" << endl;
+    }
+};
+//美帝苹果
+class USAApple : public AbstractApple {
+public:
+    virtual void showName() {
+        cout << "美帝苹果" << endl;
+    }
+};
+//倭寇苹果
+class JapanApple : public AbstractApple {
+public:
+    virtual void showName() {
+        cout << "倭寇苹果" << endl;
+    }
+};
+
+
+//抽象香蕉
+class AbstractBanana
+{
+public:
+    virtual void showName() = 0;
+};
+//中国香蕉
+class ChinaBanana : public AbstractBanana {
+public:
+    virtual void showName() {
+        cout << "中国香蕉" << endl;
+    }
+};
+//美帝香蕉
+class USABanana : public AbstractBanana {
+public:
+    virtual void showName() {
+        cout << "美帝香蕉" << endl;
+    }
+};
+//倭寇香蕉
+class JapanBanana : public AbstractBanana {
+public:
+    virtual void showName() {
+        cout << "倭寇香蕉" << endl;
+    }
+};
+
+
+//抽象鸭梨
+class AbstractPear
+{
+public:
+    virtual void showName() = 0;
+};
+//中国鸭梨
+class ChinaPear : public AbstractPear {
+public:
+    virtual void showName() {
+        cout << "中国鸭梨" << endl;
+    }
+};
+//美帝鸭梨
+class USAPear : public AbstractPear {
+public:
+    virtual void showName() {
+        cout << "美帝鸭梨" << endl;
+    }
+};
+//倭寇鸭梨
+class JapanPear : public AbstractPear {
+public:
+    virtual void showName() {
+        cout << "倭寇鸭梨" << endl;
+    }
+};
+
+
+//抽象工厂
+class AbstractFactory {
+public:
+    virtual AbstractApple* CreateApple() = 0;
+    virtual AbstractBanana* CreateBanana() = 0;
+    virtual AbstractPear* CreatePear() = 0;
+};
+//中国工厂
+class ChinaFactory : public AbstractFactory {
+public:
+    virtual AbstractApple* CreateApple() {
+        return new ChinaApple;
+    }
+    virtual AbstractBanana* CreateBanana() {
+        return new ChinaBanana;
+    }
+    virtual AbstractPear* CreatePear() {
+        return new ChinaPear;
+    }
+};
+//美帝工厂
+class USAFactory : public AbstractFactory {
+public:
+    virtual AbstractApple* CreateApple() {
+        return new USAApple;
+    }
+    virtual AbstractBanana* CreateBanana() {
+        return new USABanana;
+    }
+    virtual AbstractPear* CreatePear() {
+        return new USAPear;
+    }
+};
+//倭寇工厂
+class JapanFactory : public AbstractFactory {
+public:
+    virtual AbstractApple* CreateApple() {
+        return new JapanApple;
+    }
+    virtual AbstractBanana* CreateBanana() {
+        return new JapanBanana;
+    }
+    virtual AbstractPear* CreatePear() {
+        return new JapanPear;
+    }
+};
+
+
+void test01() {
+	//创建一个工厂，依次让中国工厂、美帝工厂、倭寇工厂生产苹果、香蕉、鸭梨
+    AbstractFactory* factory = NULL;
+    AbstractApple* apple = NULL;
+    AbstractBanana* banana = NULL;
+    AbstractPear* pear = NULL;
+
+    //中国苹果
+    factory = new ChinaFactory;
+    apple = factory->CreateApple();
+    apple->showName();
+    delete apple;
+    //中国香蕉
+    banana = factory->CreateBanana();
+    banana->showName();
+    delete banana;
+    //中国鸭梨
+    pear = factory->CreatePear();
+    pear->showName();
+    delete pear;
+    delete factory;
+
+    //美帝苹果
+    factory = new USAFactory;
+    apple = factory->CreateApple();
+    apple->showName();
+    delete apple;
+    //美帝香蕉
+    banana = factory->CreateBanana();
+    banana->showName();
+    delete banana;
+    //美帝鸭梨
+    pear = factory->CreatePear();
+    pear->showName();
+    delete pear;
+    delete factory;
+
+    //倭寇苹果
+    factory = new JapanFactory;
+    apple = factory->CreateApple();
+    apple->showName();
+    delete apple;
+    //倭寇香蕉
+    banana = factory->CreateBanana();
+    banana->showName();
+    delete banana;
+    //倭寇鸭梨
+    pear = factory->CreatePear();
+    pear->showName();
+    delete pear;
+    delete factory;
+
+}
+
+int main(){
+    test01();
+
+    return 0;
+}
+```
 
 
 
+# 23 单例模式 饿汉式和懒汉式创建
+
+![image-20220719170419977](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719170419977.png)
+
+![image-20220719170425317](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719170425317.png)
 
 
 
+```cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+//实现单例的步骤
+//1.构造函数私有化
+//2.增加静态私有的当前类的指针变量
+//3.提供静态对外接口，可以让用户获得单例对象
+class A {
+private:
+    A(){
+        a = new A;
+    }
+
+public:
+    static A* getInstace() {
+        return a;
+    }
+private:
+    static A* a;
+};
+A* A::a = NULL;
 
 
+//单例分为懒汉式、饿汉式
+
+//懒汉式：只有在调用getInstance的时候才会new一个对象出来
+class Singleton_lazzy
+{
+private:
+	Singleton_lazzy(){}
+public:
+    static Singleton_lazzy* getInstance() {
+        if (pSigleton == NULL) {
+            pSigleton = new Singleton_lazzy;
+        }
+        return pSigleton;
+    }
+
+private:
+    static Singleton_lazzy* pSigleton;
+
+};
+//类外初始化
+Singleton_lazzy* Singleton_lazzy::pSigleton = NULL;
+
+//饿汉式：在main函数开始执行前就已经创造好了
+class Singleton_hungry
+{
+private:
+    Singleton_hungry() { cout << "我是饿汉构造" << endl; }
+public:
+    static Singleton_hungry* getInstance() {
+        return pSigleton;
+    }
+
+private:
+    static Singleton_hungry* pSigleton;
+
+};
+//类外初始化
+Singleton_hungry* Singleton_hungry::pSigleton = new Singleton_hungry;
 
 
+int main(){
+    cout << "main函数开始执行" << endl;
+    //A::getInstace();
+    return 0;
+}
+```
 
+其实单例模式的核心就是构造函数私有化，让用户不能自己new一个对象。饿汉式是直接类内new一个对象，懒汉式是在需要访问对象时才实例化。完事儿通过static来保证大家访问的都是同一个实例
 
+![image-20220719173742958](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719173742958.png)
 
+懒汉式：
 
+![image-20220719173809582](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220719173809582.png)
 
+# 24 上午课程回顾
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+略
 
 
 

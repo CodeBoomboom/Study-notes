@@ -40,11 +40,12 @@ public:
     }
     void Doufeng() {
         this->Car->run();
-    }
-    ~Person() {
         if (this->Car != NULL) {
             delete this->Car;
+            this->Car = NULL;
         }
+    }
+    ~Person() {
     }
 public:
     AbstractCar* Car;
@@ -54,6 +55,8 @@ void test02() {
     p->setCar(new DaZhong);
     p->Doufeng();
 
+    p->setCar(new Tuolaji);
+    p->Doufeng();
     delete p;
 }
 

@@ -5,6 +5,8 @@
 using namespace std;
 
 //迪米特法则：最少知识原则，低耦合，高内聚
+
+// 楼盘
 class AbstractBuliding {
 public:
     virtual void sale() = 0;

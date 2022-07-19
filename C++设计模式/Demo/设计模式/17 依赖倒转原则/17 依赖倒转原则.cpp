@@ -3,6 +3,8 @@
 using namespace std;
 //依赖倒转原则
 
+//传统的业务层-中层-底层模式
+#if 0
 //银行工作人员
 class BankWorker {
 public:
@@ -34,6 +36,9 @@ void test01() {
     doPayBussiness(worker);    //  办理支付业务
     doTransferBussiness(worker);    //  办理转账业务
 }
+#endif
+
+//依赖倒转原则：业务层-抽象层-具体实现  都依赖于抽象层
 
 //银行工作人员
 class AbstractWorker {
@@ -63,7 +68,7 @@ public:
     }
 };
 
-//中层业务模块
+//业务模块
 void doNewBusiness(AbstractWorker* worker) {
     worker->doBusiness();
     delete worker;
@@ -71,13 +76,12 @@ void doNewBusiness(AbstractWorker* worker) {
 
 void test02() {
     AbstractWorker* transfer = new TransferBankWoker;
-    transfer->doBusiness();
+    doNewBusiness(transfer);
+    doNewBusiness(new SaveBankWoker);
 }
 
 int main()
 {
     test02();
-
-
     return 0;
 }
