@@ -3,7 +3,7 @@
 #include<string>
 using namespace std;
 
-//简单工厂模式
+//工厂方法模式
 
 class AbstractFruit {
 
