@@ -2,6 +2,65 @@
 
 
 
+# 00 STL总结
+
+# pair
+
+pair.first
+
+pair.second
+
+```cpp
+// 调用构造函数 1，也就是默认构造函数
+pair <string, double> pair1;
+// 调用第 2 种构造函数
+pair <string, string> pair2("STL教程","http://c.biancheng.net/stl/");  
+// 调用拷贝构造函数
+pair <string, string> pair3(pair2);
+//调用移动构造函数
+pair <string, string> pair4(make_pair("C++教程", "http://c.biancheng.net/cplus/"));
+// 调用第 5 种构造函数
+pair <string, string> pair5(string("Python教程"), string("http://c.biancheng.net/python/"));
+```
+
+## vector
+
+## dqueue
+
+## list
+
+## stack
+
+
+
+stack不能遍历
+
+## queue
+
+
+
+que不能遍历
+
+## map
+
+存储的都是pair对象。会自动根据各键值对的键的大小，按照既定的规则进行排序。默认情况下，map 容器选用`std::less<T>`排序规则（其中 T 表示键的数据类型），其会**根据键的大小**对所有键值对做升序排序。注意是根据键的大小进行排序，如果要根据值进行排序，需要将内部的pair对象拷贝到一个vector中再用sort函数进行排序（需要指定排序（static）规则）
+
+插入元素用insert()
+
+emplace():在当前 map 容器中的指定位置处构造新键值对。其效果和插入键值对一样，但效率更高。
+
+删除元素用earse()
+
+## multimap
+
+## unordered_map
+
+## set
+
+## multiset
+
+## unordered_set
+
 # 01函数模板
 
 ![image-20220704112607371](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220704112607371.png)
