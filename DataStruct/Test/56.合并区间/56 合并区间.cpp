@@ -44,8 +44,10 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 
 
 int main(){
-    vector<vector<int>> intervals = { {1,3},{2,6},{8,10},{15,18} };
+    int i = 0;
+    for (i = 0; i < 5; i++) {
 
-    vector<vector<int>> result = merge(intervals);
+    }
+    cout << i << endl;
     return 0;
 }
