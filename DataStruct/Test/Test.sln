@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1049.最后一块石头II",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "56.合并区间", "56.合并区间\56.合并区间.vcxproj", "{DCEC3B2D-E7E8-48B6-929B-FBBD30E0FEB7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "739.每日温度", "739.每日温度\739.每日温度.vcxproj", "{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{DCEC3B2D-E7E8-48B6-929B-FBBD30E0FEB7}.Release|x64.Build.0 = Release|x64
 		{DCEC3B2D-E7E8-48B6-929B-FBBD30E0FEB7}.Release|x86.ActiveCfg = Release|Win32
 		{DCEC3B2D-E7E8-48B6-929B-FBBD30E0FEB7}.Release|x86.Build.0 = Release|Win32
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Debug|x64.ActiveCfg = Debug|x64
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Debug|x64.Build.0 = Debug|x64
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Debug|x86.ActiveCfg = Debug|Win32
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Debug|x86.Build.0 = Debug|Win32
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Release|x64.ActiveCfg = Release|x64
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Release|x64.Build.0 = Release|x64
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Release|x86.ActiveCfg = Release|Win32
+		{FB76B6B9-B8C8-43FA-87CE-E8A38AAC0BD1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

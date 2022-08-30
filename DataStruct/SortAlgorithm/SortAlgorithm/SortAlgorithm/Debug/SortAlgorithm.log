@@ -1,0 +1,5 @@
+﻿  冒泡排序.cpp
+  选择排序.cpp
+  正在生成代码...
+选择排序.obj : error LNK2005: _main 已经在 冒泡排序.obj 中定义
+G:\Git\GitProject\Study-notes\DataStruct\SortAlgorithm\SortAlgorithm\Debug\SortAlgorithm.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
