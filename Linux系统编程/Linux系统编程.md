@@ -68,7 +68,7 @@ usr：用户资源管理目录，用户应用相关的文件
 	
 	目录文件：d
 	
-	字符设备文件：c
+	字符设备文件：c长度
 	
 	块设备文件：b
 	
@@ -2808,7 +2808,7 @@ FIFO实现非血缘关系进程间通信：
 
 #### ★存储映射IO
 
-存储映射I/O(Memory-mapped I/O) **使一个磁盘文件与存储空间中的一个缓冲区相映射**。于是从缓冲区中取数据，就相当于读文件中的相应字节。与此类似，将数据存入缓冲区，则相应的字节就自动写入文件。这样，就可**在不使用read和write函数的情况下，使地址指针完成I/O操作**。
+存储映射I/O(Memory-mapped I/O) **使一个磁盘文件（物理内存）与存储空间中的一个缓冲区（虚拟内存）相映射**。于是从缓冲区中取数据，就相当于读文件中的相应字节。与此类似，将数据存入缓冲区，则相应的字节就自动写入文件。这样，就可**在不使用read和write函数的情况下，使地址指针完成I/O操作**。
 
 ![image-20220219214906744](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220219214906744.png)
 
@@ -3121,8 +3121,6 @@ int main(int argc, char *argv[])
 ```c++
   p = (int *)mmap(NULL, 40, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
 ```
-
-
 
 ## 5. 信号
 
