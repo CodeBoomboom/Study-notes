@@ -33,8 +33,6 @@ void quickSort(vector<int>& nums, int low, int high) {
 
     //右子区间递归上述操作
     quickSort(nums, first + 1, high);
-
-
 }
 
 

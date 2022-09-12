@@ -27,8 +27,6 @@ void insertSort(vector<int>& nums) {
             nums[j+1] = val;
         }
     }
-
-
 }
 
 

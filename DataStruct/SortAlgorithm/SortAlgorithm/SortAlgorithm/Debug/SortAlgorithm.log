@@ -1,5 +1,3 @@
-﻿  冒泡排序.cpp
-  选择排序.cpp
-  正在生成代码...
-选择排序.obj : error LNK2005: _main 已经在 冒泡排序.obj 中定义
-G:\Git\GitProject\Study-notes\DataStruct\SortAlgorithm\SortAlgorithm\Debug\SortAlgorithm.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
+﻿E:\vs2019\vs2019IDE\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: 中间目录(Debug\)包含从另一个项目(SortAlgorithm.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  冒泡排序.cpp
+  SortAlgorithm.vcxproj -> G:\Git\GitProject\Study-notes\DataStruct\SortAlgorithm\SortAlgorithm\Debug\冒泡排序.exe

@@ -2,6 +2,7 @@
 #include<iostream>
 using namespace std;
 //合成复用原则
+//能用组合就别用继承
 
 class AbstractCar {
 public:
