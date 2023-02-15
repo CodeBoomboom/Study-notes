@@ -28,7 +28,7 @@ cd 切换路径
 
 cd ..  切换上一个路径
 
-sudo su或su+密码：切换成root用户		—不要随便用root用户
+sudo su或su+密码：切换成root用户		—不要随便用root用户   个人密码0107
 
 ctrl+d或exit退回到普通用户
 
