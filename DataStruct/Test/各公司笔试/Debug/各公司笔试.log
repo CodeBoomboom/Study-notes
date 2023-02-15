@@ -1,0 +1,7 @@
+﻿  科大讯飞.cpp
+G:\Git\GitProject\Study-notes\DataStruct\Test\各公司笔试\科大讯飞.cpp(14,25): warning C4244: “初始化”: 从“__int64”转换到“int”，可能丢失数据
+G:\Git\GitProject\Study-notes\DataStruct\Test\各公司笔试\科大讯飞.cpp(15,45): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+G:\Git\GitProject\Study-notes\DataStruct\Test\各公司笔试\科大讯飞.cpp(45,21): warning C4018: “<”: 有符号/无符号不匹配
+G:\Git\GitProject\Study-notes\DataStruct\Test\各公司笔试\科大讯飞.cpp(73,30): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+G:\Git\GitProject\Study-notes\DataStruct\Test\各公司笔试\科大讯飞.cpp(75,23): warning C4018: “<”: 有符号/无符号不匹配
+  各公司笔试.vcxproj -> G:\Git\GitProject\Study-notes\DataStruct\Test\Debug\各公司笔试.exe

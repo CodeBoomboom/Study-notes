@@ -1,0 +1,5 @@
+﻿  84.柱状图中最大矩形.cpp
+G:\Git\GitProject\Study-notes\DataStruct\Test\84.柱状图中最大矩形\84.柱状图中最大矩形.cpp(15,23): warning C4018: “<”: 有符号/无符号不匹配
+G:\Git\GitProject\Study-notes\DataStruct\Test\84.柱状图中最大矩形\84.柱状图中最大矩形.cpp(83,51): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+G:\Git\GitProject\Study-notes\DataStruct\Test\84.柱状图中最大矩形\84.柱状图中最大矩形.cpp(87,56): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+  84.柱状图中最大矩形.vcxproj -> G:\Git\GitProject\Study-notes\DataStruct\Test\Debug\84.柱状图中最大矩形.exe
