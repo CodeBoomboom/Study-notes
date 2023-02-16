@@ -240,7 +240,7 @@ SQL语句有很多，最好进行分门别类，这样更容易记忆。
 mysql> source D:\course\03-MySQL\document\bjpowernode.sql
 ```
 
-## 11.关于导入的表bjpowernode
+## 11.关于导入的数据库bjpowernode
 
 ```mysql
 mysql> show tables;
@@ -1662,14 +1662,14 @@ select ename,sal from emp where sal > min(sal);//报错。
 ```
 
 ​	因为**分组函数在使用的时候必须先分组之后才能使用。**
-**​	where执行的时候，还没有分组。所以where后面不能出现分组函数。**
+
+### **​	where执行的时候，还没有分组。所以where后面不能出现分组函数。**
 
 ```
 select sum(sal) from emp; 
 ```
 
 这个没有分组，为啥sum()函数可以用呢？因为select在group by之后执行。
-	
 
 ### 19.3、找出每个工作岗位的工资和
 
@@ -2036,7 +2036,6 @@ mysql> select distinct job,deptno from emp;
 		外连接：
 			左外连接（左连接）
 			右外连接（右连接）
-	
 		全连接（不讲）
 
 ### 2.3、当两张表进行连接查询时，没有任何条件的限制会发生什么现象
@@ -3055,7 +3054,15 @@ create table 表名(
 表名：建议以t_ 或者 tbl_开始，可读性强。见名知意。
 字段名：见名知意。
 表名和字段名都属于标识符。
+
 ```
+
+create table loaninfo(
+	loan_no varchar(20), 
+	loan_type char(1), 
+	loan_type char(1),
+
+);
 
 ### 7.2、关于mysql中的数据类型？
 
@@ -3780,6 +3787,15 @@ select * from t_vip;
 name和email两个字段联合起来唯一！！！
 insert into t_vip(id,name,email) values(3,'zhangsan','zhangsan@sina.com');
 ERROR 1062 (23000): Duplicate entry 'zhangsan-zhangsan@sina.com' for key 'name'
+
+
+create table repayrecord(
+   loan_no varchar(20),
+   repay_date char(8),
+   repay_amt decimal(16, 2),
+   repay_period int,
+   is_break char(1)
+);
 ```
 
 什么时候使用**表级约束**呢？
@@ -4471,7 +4487,7 @@ A教室和B教室中间有一道墙，这道墙可以很厚，也可以很薄。
 #### 查看隔离级别：SELECT @@transaction_isolation
 
 +-----------------+
-| @@tx_isolation  |
+| @@tx_isolation|
 +-----------------+
 | REPEATABLE-READ |
 +-----------------+
@@ -5180,6 +5196,13 @@ group by
 	e.deptno;
 ```
 
+```mysql
+select
+	
+```
+
+
+
 ## 4
 
 ```mysql
@@ -5260,7 +5283,8 @@ select ename,hiredate from emp order by hiredate desc limit 5;
 ## 12
 
 ```mysql
-select count(*),t.grade from (select s.grade,e.ename from emp e join salgrade s on e.sal between s.losal and s.hisal ) t group by t.grade;
+select count(*),t.grade from 
+(select s.grade,e.ename from emp e join salgrade s on e.sal between s.losal and s.hisal ) t group by t.grade;
 ```
 
 ## 13
